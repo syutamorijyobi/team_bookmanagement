@@ -14,8 +14,8 @@
 		<p style="color:red">ログイン失敗</p>
 	<form action="LoginServlet" method="post">
 		○○図書館<br>
-		E-mail：<input type="text" name="mail" value="<%=request.getParameter("mail") %>"><br>
-		password：<input type="password" name="pw"><br>
+		E-mail：<input type="text" name="mail" placeholder="E-mail" value="<%=request.getParameter("mail") %>"><br>
+		password：<input type="password" name="pw" placeholder="password"><br>
 		<input type="submit" value="SIGN-IN">
 	</form>
 	<a href="FormServlet">新規登録</a><br>
@@ -25,8 +25,8 @@
 	%>
 	<form action="LoginServlet" method="post">
 		○○図書館<br>
-		E-mail：<input type="text" name="mail"><br>
-		password：<input type="password" name="pw"><br>
+		<input type="text" name="mail" placeholder="E-mail" required><br>
+		<input type="password" name="pw" placeholder="password" required><br>
 		<input type="submit" value="SIGN-IN">
 	</form>
 	<a href="FormServlet">新規登録</a><br>

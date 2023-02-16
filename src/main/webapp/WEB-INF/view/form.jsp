@@ -8,7 +8,6 @@
 <title>登録画面</title>
 </head>
 <body>
-	<h1>登録画面</h1>
 	<%
 		request.setCharacterEncoding("UTF-8");
 		String errorCode = request.getParameter("error");
@@ -18,9 +17,9 @@
 		<p style="color:red">登録に失敗しました。</p>
 		<h3>登録画面</h3>
 		<form action="ConfirmServlet" method="post">
-			name：<input type="text" name="name" value="<%=us.getName()%>"><br>
-			E-mail:<input type="email" name="mail" value="<%=us.getMail() %>"><br>
-			password：<input type="password" name="pw"><br>
+			<input type="text" name="name" placeholder="name" value="<%=us.getName()%>"><br>
+			<input type="email" name="mail" placeholder="E-mail" value="<%=us.getMail() %>"><br>
+			<input type="password" name="pw" placeholder="password"><br>
 			<input type="submit" value="登録">
 		</form>
 	<%
@@ -28,9 +27,9 @@
 	%>
 	<h3>登録画面</h3>
 	<form action="ConfirmServlet" method="post">
-		name：<input type="text" name="name"><br>
-		E-mail:<input type="email" name="mail"><br>
-		password：<input type="password" name="pw"><br>
+		<input type="text" name="name" placeholder="name"><br>
+		<input type="email" name="mail" placeholder="E-mail"><br>
+		<input type="password" name="pw" placeholder="password"><br>
 		<input type="submit" value="登録">
 	</form>
 	<%
