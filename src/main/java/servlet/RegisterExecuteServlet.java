@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
-import dto.User;
+import dto.UserDTO;
 
 /**
  * Servlet implementation class ExecuteServlet
  */
-@WebServlet("/ExecuteServlet")
-public class ExecuteServlet extends HttpServlet {
+@WebServlet("/RegisterExecuteServlet")
+public class RegisterExecuteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ExecuteServlet() {
+    public RegisterExecuteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,7 +35,7 @@ public class ExecuteServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		// 入力データの取得
-		User user = (User)session.getAttribute("input_data");
+		UserDTO user = (UserDTO)session.getAttribute("input_data");
 		
 		// 登録処理
 		int result = UserDAO.registerUser(user);
@@ -48,7 +48,7 @@ public class ExecuteServlet extends HttpServlet {
 			path = "WEB-INF/view/success.jsp";
 		} else {
 			// 失敗した場合はパラメータ付きで登録画面に戻す
-			path = "WEB-INF/view/form.jsp?error=1";
+			path = "WEB-INF/view/register_form.jsp?error=1";
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
 		dispatcher.forward(request, response);

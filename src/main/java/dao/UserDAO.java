@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dto.User;
+import dto.UserDTO;
 import util.GenerateHashedPw;
 import util.GenerateSalt;
 
@@ -27,8 +27,8 @@ public class UserDAO {
 
 	    return DriverManager.getConnection(dbUrl, username, password);
 	}
-	public static int registerUser(User user) {
-		String sql = "INSERT INTO LibraryUser VALUES(default, ?, ?, ?, ?, current_timestamp)";
+	public static int registerUser(UserDTO user) {
+		String sql = "INSERT INTO project_user VALUES(default, ?, ?, ?, ?, current_timestamp)";
 		int result = 0;
 		
 		// ランダムなソルトの取得(今回は32桁で実装)
@@ -57,7 +57,7 @@ public class UserDAO {
 		return result;
 	}
 	public static String getSalt(String mail) {
-		String sql = "SELECT salt FROM LibraryUser WHERE mail = ?";
+		String sql = "SELECT salt FROM project_user WHERE mail = ?";
 		
 		try (
 				Connection con = getConnection();
@@ -79,8 +79,8 @@ public class UserDAO {
 		}
 		return null;
 	}
-	public static User login(String mail, String hashedPw) {
-		String sql = "SELECT * FROM LibraryUser WHERE mail = ? AND password = ?";
+	public static UserDTO login(String mail, String hashedPw) {
+		String sql = "SELECT * FROM project_user WHERE mail = ? AND password = ?";
 		
 		try (
 				Connection con = getConnection();
@@ -97,7 +97,7 @@ public class UserDAO {
 					String salt = rs.getString("salt");
 					String createdAt = rs.getString("created_at");
 					
-					return new User(id, name, mail, salt, null, null);
+					return new UserDTO(id, name, mail, salt, null, null);
 				}
 			}
 		} catch (SQLException e) {

@@ -8,18 +8,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import dto.UserDTO;
 
 /**
- * Servlet implementation class FormServlet
+ * Servlet implementation class ConfirmServlet
  */
-@WebServlet("/FormServlet")
-public class FormServlet extends HttpServlet {
+@WebServlet("/RegisterConfirmServlet")
+public class RegisterConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FormServlet() {
+    public RegisterConfirmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,9 +31,25 @@ public class FormServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String view = "WEB-INF/view/form.jsp";
+		request.setCharacterEncoding("UTF-8");
+		
+		String name = request.getParameter("name");
+		String mail = request.getParameter("mail");
+		String pw = request.getParameter("pw");
+		
+		UserDTO user = new UserDTO(-1, name, mail, null, pw, null);
+		
+		// セッションスコープのインスタンス取得
+		HttpSession session = request.getSession();
+		
+		// セッションスコープに値の保存
+		// 第1引数：キー
+		// 第2引数：保存する値
+		session.setAttribute("input_data", user);
+		
+		String view = "WEB-INF/view/register_confirm.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-		dispatcher.forward(request, response);
+		dispatcher.forward(request, response);	
 	}
 
 	/**

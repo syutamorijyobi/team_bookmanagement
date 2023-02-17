@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
-import dto.User;
+import dto.UserDTO;
 import util.GenerateHashedPw;
 
 /**
@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 		String hashedPw = GenerateHashedPw.getSafetyPassword(pw, salt);
 		
 		// 入力されたID、ハッシュしたPWに一致するユーザを検索する
-		User user = UserDAO.login(mail, hashedPw);
+		UserDTO user = UserDAO.login(mail, hashedPw);
 		
 		// 一致するユーザがいなければ、ログイン失敗
 		if(user == null) {

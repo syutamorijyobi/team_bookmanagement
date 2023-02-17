@@ -1,6 +1,6 @@
 package dto;
 
-public class User {
+public class UserDTO {
 	private int id;
 	private String name;
 	private String mail;
@@ -8,7 +8,7 @@ public class User {
 	private String password;
 	private String hashedPassword;
 	
-	public User(int id, String name, String mail, String salt, String password, String hashedPassword) {
+	public UserDTO(int id, String name, String mail, String salt, String password, String hashedPassword) {
 		super();
 		this.id = id;
 		this.name = name;
