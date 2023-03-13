@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ForgotPasswordFormServlet
  */
-@WebServlet("/ForgotPasswordFormServlet")
-public class ForgotPasswordFormServlet extends HttpServlet {
+@WebServlet("/ForgetPasswordFormServlet")
+public class ForgetPasswordFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ForgotPasswordFormServlet() {
+    public ForgetPasswordFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,7 +28,7 @@ public class ForgotPasswordFormServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String view="WEB-INF/view/forgot-form.jsp";
+		String view="WEB-INF/view/forget-form.jsp";
 		RequestDispatcher dispatcher=request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}

@@ -19,7 +19,7 @@
 		<input type="submit" value="SIGN-IN">
 	</form>
 	<a href="RegisterFormServlet">新規登録</a><br>
-	<a href="ForgotPasswordFormServlet">パスワードを忘れた方はこちらから</a>
+	<a href="ForgetPasswordFormServlet">パスワードを忘れた方はこちらから</a>
 	<%
 		} else {
 	%>
@@ -30,7 +30,7 @@
 		<input type="submit" value="SIGN-IN">
 	</form>
 	<a href="RegisterFormServlet">新規登録</a><br>
-	<a href="ForgotPasswordFormServlet">パスワードを忘れた方はこちらから</a>
+	<a href="ForgetPasswordFormServlet">パスワードを忘れた方はこちらから</a>
 	<%
 		}
 	%>

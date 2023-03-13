@@ -14,12 +14,12 @@
 		String mail=request.getParameter("email");
 %>
 <form action="ForgetPasswordResultServlet">
-<input type="email"name="email" value="<%=mail%>"><br>
+<input type="email"name="email" value="<%=mail%>"required><br>
 <input type= "submit"value="送信"><br>
 </form>
 <%}else{ %>
 <form action="ForgetPasswordResultServlet">
-<input type="email"name="email"><br>
+<input type="email"name="email"required><br>
 <input type= "submit"value="送信"><br>
 </form>
 <%}%>
