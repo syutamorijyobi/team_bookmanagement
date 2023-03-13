@@ -18,8 +18,8 @@
 		password：<input type="password" name="pw" placeholder="password"><br>
 		<input type="submit" value="SIGN-IN">
 	</form>
-	<a href="FormServlet">新規登録</a><br>
-	<a href="">パスワードを忘れた方はこちらから</a>
+	<a href="RegisterFormServlet">新規登録</a><br>
+	<a href="ForgotPasswordFormServlet">パスワードを忘れた方はこちらから</a>
 	<%
 		} else {
 	%>
@@ -29,8 +29,8 @@
 		<input type="password" name="pw" placeholder="password" required><br>
 		<input type="submit" value="SIGN-IN">
 	</form>
-	<a href="FormServlet">新規登録</a><br>
-	<a href="">パスワードを忘れた方はこちらから</a>
+	<a href="RegisterFormServlet">新規登録</a><br>
+	<a href="ForgotPasswordFormServlet">パスワードを忘れた方はこちらから</a>
 	<%
 		}
 	%>

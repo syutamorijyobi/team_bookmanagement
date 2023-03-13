@@ -107,5 +107,70 @@ public class UserDAO {
 		}
 		return null;
 	}
+	public static int registertentative(String mail,String hash) {
+		String sql = "INSERT INTO project_tentative VALUES(default, ?, ?)";
+		int result = 0;
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, mail);
+			pstmt.setString(2, hash);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件更新しました。");
+		}
+		return result;
+	}
+	public static String selecttentative(String path) {
+
+		String sql = "SELECT * FROM project_tentative where tent = ?";
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, path);
+			try (ResultSet rs = pstmt.executeQuery()){
+				if(rs.next()) {
+					String mail= rs.getString("mail");
+					return mail;
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			}catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		return null;
+	}
+	public static int Updatuser(String passwd,String mail) {
+		String sql = "UPDATE project_user set salt = ? ,password = ? where mail = ?";
+	String salt = GenerateSalt.getSalt(32);
 	
+	String hashedPw = GenerateHashedPw.getSafetyPassword(passwd, salt);
+		int result = 0;
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+				pstmt.setString(1,salt);
+				pstmt.setString(2,hashedPw);
+				pstmt.setString(3,mail);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件を更新しました。");
+		}
+		return result;
+	}
 }
