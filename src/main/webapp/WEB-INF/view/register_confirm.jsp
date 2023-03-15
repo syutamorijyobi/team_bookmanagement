@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="css/register_confirm.css">
 <title>確認画面</title>
 </head>
 <body>
