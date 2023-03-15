@@ -20,9 +20,11 @@
 		<input type="password" name="pw" placeholder="password"><br>
 		<input type="submit" value="SIGN-IN">
 	</form>
-	<a href="FormServlet">新規登録</a><br>
-	<a href="">パスワードを忘れた方はこちらから</a>
-	</div>
+
+	<a href="RegisterFormServlet">新規登録</a><br>
+	<a href="ForgetPasswordFormServlet">パスワードを忘れた方はこちらから</a>
+  	</div>
+    
 	<%
 		} else {
 	%>
@@ -34,8 +36,8 @@
 		<input type="submit" value="SIGN-IN" class="hoge">
 	</form>
 	<a href="RegisterFormServlet">新規登録</a><br>
-	<a href="">パスワードを忘れた方はこちらから</a>
-	</div>
+	<a href="ForgetPasswordFormServlet">パスワードを忘れた方はこちらから</a>
+</div>
 	<%
 		}
 	%>
