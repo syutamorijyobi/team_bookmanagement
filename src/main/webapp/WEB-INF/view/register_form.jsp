@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="css/register_form.css">
 <title>登録画面</title>
 </head>
 <body>
@@ -25,13 +26,15 @@
 	<%
 		} else {
 	%>
+	<div class="box3">
 	<h3>登録画面</h3>
 	<form action="RegisterConfirmServlet" method="post">
 		<input type="text" name="name" placeholder="name"><br>
 		<input type="email" name="mail" placeholder="E-mail"><br>
 		<input type="password" name="pw" placeholder="password"><br>
-		<input type="submit" value="登録">
+		<input type="submit" value="登録" class="hoge">
 	</form>
+	</div>
 	<%
 		}
 	%>
