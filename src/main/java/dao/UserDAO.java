@@ -173,4 +173,28 @@ public class UserDAO {
 		}
 		return result;
 	}
+	public static int selectroot(int num) {
+		int result=-1;
+		String sql = "SELECT * FROM project_root WHERE user_id = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, num);
+
+			try (ResultSet rs = pstmt.executeQuery()){
+				
+				if(rs.next()) {
+					result= rs.getInt("user_id");
+				return result;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }
