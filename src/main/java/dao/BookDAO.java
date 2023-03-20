@@ -185,9 +185,10 @@ public class BookDAO {
 		return result;
 	}
 	
-	//検索 条件合致なし＝ー１
-	public static int selectIsbn(int num) {
-		int result=-1;
+	
+	//検索
+	public static IsbnDTO SelectIsbn(int num) {
+		
 		String sql = "SELECT * FROM project_isbn WHERE isbn = ?";
 		
 		try (
@@ -195,11 +196,17 @@ public class BookDAO {
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				){
 			pstmt.setInt(1, num);
+
 			try (ResultSet rs = pstmt.executeQuery()){
 				
 				if(rs.next()) {
-					result= rs.getInt("isbn");
-				return result;
+					int is=rs.getInt("isbn");
+					String title=rs.getString("title");
+					int author_id=rs.getInt("author_id");
+					int publisher_id=rs.getInt("publisher_id");
+					int category_id=rs.getInt("category_id");
+					
+					return new IsbnDTO(is, title, author_id, publisher_id, category_id);
 				}
 			}
 		} catch (SQLException e) {
@@ -207,6 +214,6 @@ public class BookDAO {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		return result;
+		return null;
 	}
 }
