@@ -7,11 +7,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.AllBookDTO;
 import dto.AuthorDTO;
 import dto.BookDTO;
+import dto.BookLogDTO;
 import dto.CategoryDTO;
 import dto.IsbnDTO;
 import dto.PublisherDTO;
@@ -115,6 +118,33 @@ public class BookDAO {
 		}
 		return result;
 	}
+	public static int RegisterBookLog(BookLogDTO log) {
+		String sql = "INSERT INTO project_book_log VALUES(default, ?, ?, ?, ?,current_timestamp, ?)";
+		int result = 0;
+		Timestamp time=new Timestamp(System.currentTimeMillis());
+		Timestamp time2=new Timestamp(70, 0, 30, 0, 0, 0, 0);
+		long a=time.getTime()+time2.getTime();
+		time.setTime(a);
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1,log.getUser_id() );
+			pstmt.setInt(2, log.getDivision_id());
+			pstmt.setInt(3, log.getBook_id());
+			pstmt.setTimestamp(4,time);
+			pstmt.setTimestamp(5, log.getReturn_at());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件更新しました。");
+		}
+		return result;
+	}
 	//全件取得
 	public static List<AuthorDTO> selectAllAuthor() {
 		List<AuthorDTO> result = new ArrayList<>();
@@ -185,7 +215,82 @@ public class BookDAO {
 		return result;
 	}
 	
-	
+	public static List<BookLogDTO> selectAllBookLog() {
+		List<BookLogDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_book_log";
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) {
+					int id = rs.getInt("id");
+					int user_id=Integer.parseInt( rs.getString("user_id"));
+					int division_id =Integer.parseInt( rs.getString("division_id"));
+					int book_id=rs.getInt("book_id");
+					Timestamp deadline_at = rs.getTimestamp("leadline_at");
+					Timestamp lending_at = rs.getTimestamp("lending_at");
+					Timestamp return_at=rs.getTimestamp("return_at");
+					BookLogDTO log=new BookLogDTO(id, user_id, division_id, book_id, deadline_at, lending_at, return_at);
+					result.add(log);
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			}catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		return result;
+	}
+	public static List<BookDTO> selectAllBook() {
+		List<BookDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_book";
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) { 
+					int id = rs.getInt("id");
+					int isbn =rs.getInt("isbn");
+					String staus=rs.getString("status");
+					boolean condition=rs.getBoolean("condition");
+					BookDTO book=new BookDTO(id, isbn, staus, condition, null);
+					result.add(book);
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			}catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		return result;
+	}
+	public static List<IsbnDTO> selectAllIsbn() {
+		List<IsbnDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_isbn";
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) {
+					int id = rs.getInt("isbn");
+					String title=rs.getString("title");
+					int author_id =rs.getInt("author_id");
+					int publisher_id=rs.getInt("publisher_id");
+					int category_id=rs.getInt("category_id");
+					IsbnDTO isbn=new IsbnDTO(id, title, author_id, publisher_id, category_id);
+					result.add(isbn);
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			}catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		return result;
+	}
 	//検索
 	public static IsbnDTO SelectIsbn(int num) {
 		
@@ -215,5 +320,60 @@ public class BookDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	//更新
+	public static int BookDivisionUpdate(BookLogDTO log) {
+		String sql = "UPDATE product set division_id = ? where id = ?";
+		int result = 0;
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+				pstmt.setInt(1,log.getDivision_id());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件を更新しました。");
+		}
+		return result;
+	}
+	public static List<AllBookDTO> IntegrationOne(List<BookDTO> book_list,List<IsbnDTO> isbn_list,List<PublisherDTO> publisher_list,List<AuthorDTO> author_list,List<CategoryDTO> category_list){
+		List<AllBookDTO> all_book=new ArrayList<AllBookDTO>();
+		int id;
+		int isbn;
+		String publisher;
+		String author;
+		String category;
+		String title;
+		String status;
+		boolean condition;
+		for(BookDTO bk:book_list){
+			for(IsbnDTO is:isbn_list) {
+				for(PublisherDTO pu:publisher_list) {
+					for(AuthorDTO au:author_list) {
+						for(CategoryDTO ca:category_list) {
+							if(bk.getIsbn()==is.getIsbn()&&is.getPublisher_id()==pu.getId()&&is.getAuthor_id()==au.getId()&&is.getCategory_id()==ca.getId()) {
+								id=bk.getId();
+								isbn=is.getIsbn();
+								title=is.getTitlel();
+								status=bk.getStatus();
+								condition=bk.isCondition();
+								publisher=pu.getPublisher_name();
+								author=au.getAuthor_name();
+								category=ca.getCategory_name();
+								AllBookDTO all=new AllBookDTO(id, isbn, title, author, publisher, category, condition, status);
+								all_book.add(all);
+							}
+						}
+					}
+				}
+			}
+		}
+		return all_book;
 	}
 }
