@@ -233,7 +233,7 @@ public class UserDAO {
 				){
 			try (ResultSet rs = pstmt.executeQuery()){
 				while(rs.next()) {
-					int id = rs.getInt("id");
+					int id = rs.getInt("user_id");
 					UserDTO log=new UserDTO(id, null, null, null, null, null);
 					result.add(log);
 				}
