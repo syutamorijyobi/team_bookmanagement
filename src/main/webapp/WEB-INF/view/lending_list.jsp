@@ -29,13 +29,13 @@
 				<th>追加</th>
 			</tr>
 		<% 
-			for(AllBookDTO ab:book_list){
+			for(int num=0;num<book_list.size();num++) {
 			%>
 			<tr>
-				<td><a href="Servlet?id=<%=ab.getId()%>"><%=ab.getId() %></a></td>
-				<td><%=ab.getIsbn() %></td>
-				<td><%=ab.getTitle()%></td>
-				<td><a href="LendingDeleteServlet?id=<%=ab.getId()%>">削除</a></td>
+				<td><a href="Servlet?id=<%=book_list.get(num).getId()%>"><%=book_list.get(num).getId() %></a></td>
+				<td><%=book_list.get(num).getIsbn() %></td>
+				<td><%=book_list.get(num).getTitle()%></td>
+				<td><a href="LendingDeleteListServlet?num=<%=num %>">削除</a></td>
 			</tr>
 			<%
 			}

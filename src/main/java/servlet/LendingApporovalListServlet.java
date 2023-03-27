@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,20 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dto.BookDTO;
+import dao.BookDAO;
 import dto.UserDTO;
 
 /**
- * Servlet implementation class LendingDeleteListServlet
+ * Servlet implementation class LendingApporovalListServlet
  */
-@WebServlet("/LendingDeleteListServlet")
-public class LendingDeleteListServlet extends HttpServlet {
+@WebServlet("/LendingApporovalListServlet")
+public class LendingApporovalListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LendingDeleteListServlet() {
+    public LendingApporovalListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,7 +33,6 @@ public class LendingDeleteListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		HttpSession session=request.getSession();
 		UserDTO user = (UserDTO)session.getAttribute("user");
 		if(user == null){
@@ -43,12 +41,13 @@ public class LendingDeleteListServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			return;
 		}
-		int num=Integer.parseInt(request.getParameter("num"));
-		List<BookDTO>list=(ArrayList<BookDTO>)session.getAttribute("lending");
-		list.remove(num);
-		String view = "WEB-INF/view/lending_list.jsp";
-		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+		request.setCharacterEncoding("UTF-8");
+		List<UserDTO>log_user=BookDAO.SelectAllbooklogUser(1);
+		session.setAttribute("log_user", log_user);
+		String view = "WEB-INF/view/lneding_apporoval_list.jsp";
+		RequestDispatcher dispatcher=request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
+		
 	}
 
 	/**

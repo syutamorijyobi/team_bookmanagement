@@ -18,6 +18,7 @@ import dto.BookLogDTO;
 import dto.CategoryDTO;
 import dto.IsbnDTO;
 import dto.PublisherDTO;
+import dto.UserDTO;
 
 public class BookDAO {
 	private static Connection getConnection() throws URISyntaxException, SQLException {
@@ -312,6 +313,64 @@ public class BookDAO {
 					int category_id=rs.getInt("category_id");
 					
 					return new IsbnDTO(is, title, author_id, publisher_id, category_id);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static List<UserDTO> SelectAllbooklogUser(int num) {
+		List<UserDTO> result = new ArrayList<>();
+		String sql = "select * from project_user where id IN(select DISTINCT user_id from project_book_log where division_id = 1)";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, num);
+
+			try (ResultSet rs = pstmt.executeQuery()){
+				
+				if(rs.next()) {
+					int id=rs.getInt("id");
+					String name=rs.getString("name");
+					String mail=rs.getString("mail");
+					UserDTO user=new UserDTO(id, name, mail, null, null, null);
+					result.add(user);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static List<BookLogDTO> Selectbooklog(int num ,int user) {
+		List<BookLogDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_book_log WHERE user_id= ? , division_id = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, num);
+
+			try (ResultSet rs = pstmt.executeQuery()){
+				
+				if(rs.next()) {
+					int id=rs.getInt("id");
+					int user_id=rs.getInt("user_id");
+					int division_id=rs.getInt("division_id");
+					int book_id=rs.getInt("book_id");
+					Timestamp deadline_at=rs.getTimestamp("deadline_at");
+					Timestamp lending_at=rs.getTimestamp("lending_at");
+					Timestamp return_at=rs.getTimestamp("return_at");
+					BookLogDTO log=new BookLogDTO(id, user_id, division_id, book_id, deadline_at, lending_at, return_at);
+					result.add(log);
 				}
 			}
 		} catch (SQLException e) {
