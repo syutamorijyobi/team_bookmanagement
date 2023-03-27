@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="SelectAllBookServlet">図書取得</a>
+<p>管理者に貸し出し申請を送りました。
 </body>
 </html>

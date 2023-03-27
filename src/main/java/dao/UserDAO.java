@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import dto.UserDTO;
 import util.GenerateHashedPw;
@@ -195,6 +197,52 @@ public class UserDAO {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
+		return result;
+	}
+	public static String SelectUser(int num) {
+		String result=null;
+		String sql = "SELECT * FROM project_user WHERE id = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, num);
+
+			try (ResultSet rs = pstmt.executeQuery()){
+				
+				if(rs.next()) {
+					result= rs.getString("mail");
+				return result;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	//全件取得
+	public static List<UserDTO> selectAllRoot() {
+		List<UserDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_root";
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) {
+					int id = rs.getInt("user_id");
+					UserDTO log=new UserDTO(id, null, null, null, null, null);
+					result.add(log);
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			}catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
 		return result;
 	}
 }
