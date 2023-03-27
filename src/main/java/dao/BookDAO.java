@@ -216,4 +216,148 @@ public class BookDAO {
 		}
 		return null;
 	}
+
+	public static  AuthorDTO SelectAuthor_id(String author) {		
+		
+		String sql = "SELECT * FROM project_author W}HERE author_name = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, author);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				
+				if(rs.next()) {
+					int author_id = rs.getInt("id");
+					String author_name = rs.getString("author_name");
+					String author_hiragana = rs.getString("author_hiragana");
+					
+					return new AuthorDTO(author_id,author_name,author_hiragana);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static PublisherDTO SelectPublisher_id(String publisher) {
+		
+		String sql = "SELECT * FROM project_publisher WHERE publisher_name = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, publisher);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				
+				if(rs.next()) {
+					int publisher_id = rs.getInt("id");
+					String publisher_name = rs.getString("publisher_name");
+					String publisher_hiragana = rs.getString("publisher_hiragana");
+					
+					return new PublisherDTO(publisher_id, publisher_name, publisher_hiragana);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static IsbnDTO SelectTitle (String name) {
+		
+		String sql = "SELECT * FROM project_isbn WHERE title = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, name);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				
+				if(rs.next()) {
+					int is=rs.getInt("isbn");
+					String title=rs.getString("title");
+					int author_id=rs.getInt("author_id");
+					int publisher_id=rs.getInt("publisher_id");
+					int category_id=rs.getInt("category_id");
+					
+					return new IsbnDTO(is, title, author_id, publisher_id, category_id);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static List<CategoryDTO> SelectCategoty_id(String category) {
+		List<CategoryDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_category WHERE category = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, category);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				int category_id = rs.getInt("id");
+				String category_name = rs.getString("category_name");
+				
+				CategoryDTO searchcategory_id = new CategoryDTO(category_id, category_name);
+				result.add(searchcategory_id);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(URISyntaxException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static List<IsbnDTO> SelectCategory(int num) {
+		List<IsbnDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_isbn INNER "
+				+ "JOIN category ON project_isbn.category_id = project_category.id "
+				+ "JOIN author ON project_isbn.author_id = project_author.id "
+				+ "JOIN publisher ON project_isbn.publisher_id = project_publisher.id "
+				+ "WHERE category_id = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, num);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				int isbn = rs.getInt("isbn");
+				String title = rs.getString("title");
+				int author_id = rs.getInt("author_id");
+				int publisher_id = rs.getInt("publisher_id");
+				int category_id = rs.getInt("category_id");
+				
+				IsbnDTO category = new IsbnDTO(isbn, title,author_id,publisher_id,category_id);
+				result.add(category);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }
