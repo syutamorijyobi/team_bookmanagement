@@ -43,7 +43,7 @@ public class SearchBookConfirmServlet extends HttpServlet {
 			AuthorDTO author = BookDAO.SelectAuthor_id(searchauthor);
 			HttpSession session = request.getSession();
 			session.setAttribute("search_author", author);
-			String view = "WEB-INF/view/search_result_author.jsp";
+			String view = "WEB-INF/view/search_result.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			dispatcher.forward(request, response);
 			
@@ -53,7 +53,7 @@ public class SearchBookConfirmServlet extends HttpServlet {
 			PublisherDTO publisher = BookDAO.SelectPublisher_id(searchpublisher);
 			HttpSession session = request.getSession();
 			session.setAttribute("search_publisher", publisher);
-			String view = "WEB-INF/view/search_result_book.jsp";
+			String view = "WEB-INF/view/search_result.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			dispatcher.forward(request, response);
 			
@@ -63,7 +63,7 @@ public class SearchBookConfirmServlet extends HttpServlet {
 			CategoryDTO category_name = (CategoryDTO) BookDAO.SelectCategoty_id(searchcategory);
 			HttpSession session = request.getSession();
 			session.setAttribute("search_category", category_name);
-			String view = "WEB-INF/view/search_result_book.jsp";
+			String view = "WEB-INF/view/search_result.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			dispatcher.forward(request, response);
 			
@@ -73,7 +73,7 @@ public class SearchBookConfirmServlet extends HttpServlet {
 			IsbnDTO title = BookDAO.SelectTitle(searchtitle);
 			HttpSession session = request.getSession();
 			session.setAttribute("search_title", title);
-			String view = "WEB-INF/view/search_result_book.jsp";
+			String view = "WEB-INF/view/search_result.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			dispatcher.forward(request, response);
 			
@@ -83,7 +83,7 @@ public class SearchBookConfirmServlet extends HttpServlet {
 			IsbnDTO isbn=BookDAO.SelectIsbn(serchisbn);
 			HttpSession session = request.getSession();
 			session.setAttribute("serch_isbn", isbn);
-			String view = "WEB-INF/view/search_result_book.jsp";
+			String view = "WEB-INF/view/search_result.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			dispatcher.forward(request, response);
 			

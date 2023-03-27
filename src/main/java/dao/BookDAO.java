@@ -303,9 +303,33 @@ public class BookDAO {
 		return null;
 	}
 	
-	public static List<CategoryDTO> SelectCategoty_id(String category) {
-		List<CategoryDTO> result = new ArrayList<>();
+	public static CategoryDTO SelectCate_id (String cate_id) {
 		String sql = "SELECT * FROM project_category WHERE category = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, cate_id);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				if(rs.next()) {	
+					int category_id = rs.getInt("id");
+					String category_name = rs.getString("category_name");
+					return new CategoryDTO(category_id, category_name);
+				}
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(URISyntaxException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static List<CategoryDTO> SelectCategoty_id (String category) {
+		List<CategoryDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_category WHERE category_name = ?";
 		
 		try (
 				Connection con = getConnection();
@@ -314,11 +338,12 @@ public class BookDAO {
 			pstmt.setString(1, category);
 			
 			try (ResultSet rs = pstmt.executeQuery()){
-				int category_id = rs.getInt("id");
-				String category_name = rs.getString("category_name");
-				
-				CategoryDTO searchcategory_id = new CategoryDTO(category_id, category_name);
-				result.add(searchcategory_id);
+				if(rs.next()) {	
+					int category_id = rs.getInt("id");
+					String category_name = rs.getString("category_name");
+					CategoryDTO searchcategoryid = new CategoryDTO(category_id, category_name);
+					result.add(searchcategoryid);
+				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -331,9 +356,9 @@ public class BookDAO {
 	public static List<IsbnDTO> SelectCategory(int num) {
 		List<IsbnDTO> result = new ArrayList<>();
 		String sql = "SELECT * FROM project_isbn INNER "
-				+ "JOIN category ON project_isbn.category_id = project_category.id "
-				+ "JOIN author ON project_isbn.author_id = project_author.id "
-				+ "JOIN publisher ON project_isbn.publisher_id = project_publisher.id "
+				+ "JOIN project_category ON project_isbn.category_id = project_category.id "
+				+ "JOIN project_author ON project_isbn.author_id = project_author.id "
+				+ "JOIN project_publisher ON project_isbn.publisher_id = project_publisher.id "
 				+ "WHERE category_id = ?";
 		
 		try (
@@ -359,5 +384,124 @@ public class BookDAO {
 		}
 		return null;
 	}
+	
+	public static List<AuthorDTO> SelectAuthor_Id(String authorid){
+		List<AuthorDTO> result = new ArrayList<>();
+		
+		String sql = "SELECT * FROM project_author WHERE author_name=?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, authorid);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				int author_id = rs.getInt("id");
+				String author_name = rs.getString("author_name");
+				String author_hiragana = rs.getString("author_hiragana");
+				
+				AuthorDTO searchauthorchid = new AuthorDTO(author_id, author_name, author_hiragana);
+				result.add(searchauthorchid);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static List<IsbnDTO> SelectAuthor(int searchauthor){
+		List<IsbnDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_isbn INNER"
+				+ "JOIN project_author ON project_isbn.author_id = project_author.id"
+				+ "JOIN project_category ON project_isbn.category_id = project_category.id"
+				+ "JOIN project_publisher ON project_isbn.publisher_id = project_publisher.id"
+				+ "WHERE author_id = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, searchauthor);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				int isbn = rs.getInt("isbn");
+				String title = rs.getString("title");
+				int author_id = rs.getInt("author_id");
+				int publisher_id = rs.getInt("publisher_id");
+				int category_id = rs.getInt("category_id");
+				
+				IsbnDTO author = new IsbnDTO(isbn, title,author_id,publisher_id,category_id);
+				result.add(author);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static List<PublisherDTO> SelectPublisher_Id(String pubid){
+		List<PublisherDTO> result = new ArrayList<>();
+		
+		String sql = "SELECT * FROM project_publisher WHERE publisher_name = ?";
+		
+		try(
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, pubid);
+			
+			try(ResultSet rs = pstmt.executeQuery()){
+				int publisher_id = rs.getInt("id");
+				String publisher_name = rs.getString("publisher_name");
+				String publisher_hiragana = rs.getString("publisher_hiragana");
+				
+				PublisherDTO searchpublisherid = new PublisherDTO(publisher_id, publisher_name, publisher_hiragana);
+				result.add(searchpublisherid);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static List<IsbnDTO> SelectPublisher(int searchpublisher){
+		List<IsbnDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_isbn INNER"
+				+ "JOIN project_publisher ON project_isbn.publisher_id = project_publisher,id"
+				+ "JOIN project_author ON project_isbn.author_id = project_author.id"
+				+ "JOIN project_category ON project_isbn.category_id = project_category.id"
+				+ "WHERE publisher_id = ?";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, searchpublisher);
+			
+			try (ResultSet rs = pstmt.executeQuery()){
+				int isbn = rs.getInt("isbn");
+				String title = rs.getString("title");
+				int author_id = rs.getInt("author_id");
+				int publisher_id = rs.getInt("publisher_id");
+				int category_id = rs.getInt("category_id");
+				
+				IsbnDTO publisher = new IsbnDTO(isbn, title,author_id,publisher_id,category_id);
+				result.add(publisher);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}catch(URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 }
