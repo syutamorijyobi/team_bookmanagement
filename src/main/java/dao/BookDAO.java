@@ -216,4 +216,106 @@ public class BookDAO {
 		}
 		return null;
 	}
+public static int DROPbook(BookDTO drop) {
+	
+		
+		String sql = "DELETE from  project_book Where ISBN =?";
+
+		// return用の変数
+		int result = 0;
+		
+		try (
+				Connection con = getConnection();	// DB接続
+				PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
+				){
+	
+		
+			pstmt.setInt(1, drop.getIsbn());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件削除しました。");
+		}
+		return result;
+	}
+public static int DROPIsbn(IsbnDTO drop2) {
+	
+	
+	String sql = "DELETE from  project_isbn Where ISBN =?";
+
+	// return用の変数
+	int result = 0;
+	
+	try (
+			Connection con = getConnection();	// DB接続
+			PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
+			){
+
+	
+		pstmt.setInt(1, drop2.getIsbn());
+	
+		result = pstmt.executeUpdate();
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} catch (URISyntaxException e) {
+		e.printStackTrace();
+	} finally {
+		System.out.println(result + "件削除しました。");
+	}
+	return result;
+}
+public static int DROPpublisher(PublisherDTO drop4) {
+	
+	
+	String sql = "DELETE from  project_Publisher Where publisher_name =?";
+
+	// return用の変数
+	int result = 0;
+	
+	try (
+			Connection con = getConnection();	// DB接続
+			PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
+			){
+		pstmt.setString(1, drop4.getPublisher_name());
+		
+		result = pstmt.executeUpdate();
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} catch (URISyntaxException e) {
+		e.printStackTrace();
+	} finally {
+		System.out.println(result + "件削除しました。");
+	}
+	return result;
+}
+public static int DROPAuthor(AuthorDTO drop5) {
+	
+	
+	String sql = "DELETE from  project_Author Where author_name =?";
+
+	// return用の変数
+	int result = 0;
+	
+	try (
+			Connection con = getConnection();	// DB接続
+			PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
+			){
+		
+		pstmt.setString(1, drop5.getAuthor_name());
+
+		result = pstmt.executeUpdate();
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} catch (URISyntaxException e) {
+		e.printStackTrace();
+	} finally {
+		System.out.println(result + "件削除しました。");
+	}
+	return result;
+}
+
 }
