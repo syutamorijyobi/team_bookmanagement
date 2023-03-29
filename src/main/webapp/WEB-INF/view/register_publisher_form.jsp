@@ -15,7 +15,7 @@
 				PublisherDTO pu = (PublisherDTO)session.getAttribute("input_publisher");
 	%>
 		<p style="color:red">登録内容が重複</p>
-		<h3>登録画面</h3>
+		<h3>出版社登録画面</h3>
 		<form action="RegisterPublisherConfirmServlet" method="post">
 			<input type="text" name="name" placeholder="name" value="<%=pu.getPublisher_name()%>"><br>
 			<input type="email" name="hiragana" placeholder="ひらがな" value="<%=pu.getPublisher_hiragana() %>"><br>
@@ -25,7 +25,7 @@
 		} else {
 	%>
 	<div class="box3">
-	<h3>登録画面</h3>
+	<h3>出版社登録画面</h3>
 	<form action="RegisterPublisherConfirmServlet" method="post">
 		<input type="text" name="name" placeholder="name"><br>
 		<input type="text" name="hiragana" placeholder="ひらがな"><br>

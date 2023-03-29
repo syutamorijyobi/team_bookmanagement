@@ -15,7 +15,7 @@
 		AuthorDTO au = (AuthorDTO)session.getAttribute("input_data");
 	%>
 		<p style="color:red">登録内容が重複</p>
-		<h3>登録画面</h3>
+		<h3>著者登録画面</h3>
 		<form action="RegisterAuthorConfirmServlet" method="post">
 			<input type="text" name="name" placeholder="name" value="<%=au.getAuthor_name()%>"><br>
 			<input type="email" name="hiragana" placeholder="ひらがな" value="<%=au.getAuthor_hiragana() %>"><br>
@@ -25,7 +25,7 @@
 		} else {
 	%>
 	<div class="box3">
-	<h3>登録画面</h3>
+	<h3>著者登録画面</h3>
 	<form action="RegisterAuthorConfirmServlet" method="post">
 		<input type="text" name="name" placeholder="name"><br>
 		<input type="text" name="hiragana" placeholder="ひらがな"><br>
