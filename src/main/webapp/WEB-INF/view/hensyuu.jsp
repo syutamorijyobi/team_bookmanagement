@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="dto.BookDTO" %>
+<%@ page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,8 +24,8 @@ ISBN：<input type="text"  name="ISBN"><br>
 		<th>ISBN</th>
 	</tr>
 <%
-List<bookdto> booklist = (ArrayList<bookdto>)request.getAttribute("list");
-for(bookdto s : booklist) {
+List<BookDTO> booklist = (ArrayList<BookDTO>)request.getAttribute("list");
+for(BookDTO s : booklist) {
 %>
 	<tr>
 	    <td><%=s.getId() %></td>
