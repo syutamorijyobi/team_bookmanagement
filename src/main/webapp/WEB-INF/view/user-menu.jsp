@@ -8,5 +8,6 @@
 </head>
 <body>
 	<a href="SelectAllBookServlet">図書取得</a>
+	<a href="BookLogListServlet">図書履歴</a>
 </body>
 </html>

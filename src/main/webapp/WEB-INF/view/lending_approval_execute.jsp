@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	貸出申請を承認しました。
 </body>
 </html>
