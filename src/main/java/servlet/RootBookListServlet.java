@@ -1,24 +1,31 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import dao.BookDAO;
+import dto.BookDTO;
+import dto.UserDTO;
 
 /**
- * Servlet implementation class AuthorListServlet
+ * Servlet implementation class BookListServlet
  */
-@WebServlet("/AuthorListServlet")
-public class AuthorListServlet extends HttpServlet {
+@WebServlet("/RootBookListServlet")
+public class RootBookListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AuthorListServlet() {
+    public RootBookListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +34,20 @@ public class AuthorListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session=request.getSession();
+		UserDTO user = (UserDTO)session.getAttribute("root");
+		if(user == null){
+			String view = "./";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+			dispatcher.forward(request, response);
+			return;
+		}
+		List<BookDTO> book_list=BookDAO.selectAllBook();
+		session.setAttribute("root_book_list", book_list);
+		String view = "WEB-INF/view/book_list.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+		dispatcher.forward(request, response);
 	}
 
 	/**

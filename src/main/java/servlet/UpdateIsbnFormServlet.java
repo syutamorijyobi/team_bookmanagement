@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,20 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.BookDAO;
+import dto.AuthorDTO;
+import dto.CategoryDTO;
+import dto.IsbnDTO;
 import dto.PublisherDTO;
 import dto.UserDTO;
 
 /**
- * Servlet implementation class UpdatePublisherFormServlet
+ * Servlet implementation class UpdateIsbnFormServlet
  */
-@WebServlet("/UpdatePublisherFormServlet")
-public class UpdatePublisherFormServlet extends HttpServlet {
+@WebServlet("/UpdateIsbnFormServlet")
+public class UpdateIsbnFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdatePublisherFormServlet() {
+    public UpdateIsbnFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,9 +47,15 @@ public class UpdatePublisherFormServlet extends HttpServlet {
 			return;
 		}
 		int id=Integer.parseInt(request.getParameter("id"));
-		PublisherDTO author_list=BookDAO.SelectPublisher(id);
-		session.setAttribute("root_publisher_list", author_list);
-		String view = "WEB-INF/view/update_publisher_form.jsp";
+		IsbnDTO isbn_list=BookDAO.SelectIsbn(id);
+		session.setAttribute("root_isbn_list", isbn_list);
+		List<AuthorDTO> author_list=BookDAO.selectAllAuthor();
+		session.setAttribute("root_author_list", author_list);
+		List<PublisherDTO> publisher_list=BookDAO.selectAllPublisher();
+		session.setAttribute("root_publisher_list", publisher_list);
+		List<CategoryDTO> category_list=BookDAO.selectAllCategory();
+		session.setAttribute("root_category_list", category_list);
+		String view = "WEB-INF/view/update_isbn_form.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}

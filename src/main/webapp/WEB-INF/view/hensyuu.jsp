@@ -28,12 +28,7 @@ List<BookDTO> booklist = (ArrayList<BookDTO>)request.getAttribute("list");
 for(BookDTO s : booklist) {
 %>
 	<tr>
-	    <td><%=s.getId() %></td>
-		<td><a href= "HensyuAllServlet?Title=<%=s.getTitle() %>"><%=s.getTitle() %></a></td>
-		<td><%=s.getPublicher_name() %></td>
-		<td><%=s.getAuthor_name() %></td>
-		<td><%=s.getCategory_name() %></td>
-		<td><%=s.getiSBN() %></td>
+
 		
 	</tr>
 <%} %>

@@ -322,7 +322,85 @@ public class BookDAO {
 		}
 		return null;
 	}
+	public static PublisherDTO SelectPublisher(int num) {
 
+		String sql = "SELECT * FROM project_publisher WHERE id = ?";
+
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, num);
+
+			try (ResultSet rs = pstmt.executeQuery()){
+
+				if(rs.next()) {
+					int id=rs.getInt("id");
+					String name=rs.getString("publisher_name");
+					String hiragana=rs.getString("publisher_hiragana");
+					return new PublisherDTO(id, name, hiragana);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static AuthorDTO SelectAuthor(int num) {
+
+		String sql = "SELECT * FROM project_author WHERE id = ?";
+
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, num);
+
+			try (ResultSet rs = pstmt.executeQuery()){
+
+				if(rs.next()) {
+					int id=rs.getInt("id");
+					String name=rs.getString("author_name");
+					String hiragana=rs.getString("author_hiragana");
+					return new AuthorDTO(id, name, hiragana);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static BookDTO selectBook(int num) {
+
+		String sql = "SELECT * FROM project_book WHERE id = ?";
+
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, num);
+
+			try (ResultSet rs = pstmt.executeQuery()){
+
+				if(rs.next()) {
+					int id=rs.getInt("id");
+					int isbn=rs.getInt("isbn");
+					String status=rs.getString("status");
+					boolean condition=rs.getBoolean("condition");
+					return new BookDTO(id, isbn, status, condition, null);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public static List<BookLogDTO> SerchBookloguserid(int num) {
 
 		String sql = "select DISTINCT user_id from project_book_log where division_id = ? ";
@@ -427,10 +505,113 @@ public class BookDAO {
 		}
 		return result;
 	}
+	public static int UpdateAuthor(AuthorDTO upa) {
+		
+		
+		String sql = "UPdate project_Author set author_name = ?, author_hiragana= ?,where id =?";
+		// return用の変数
+		int result = 0;
+		
+		try (
+				Connection con = getConnection();	// DB接続
+				PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
+				){
+			pstmt.setString(1, upa.getAuthor_name());
+			pstmt.setString(2, upa.getAuthor_hiragana());
+			pstmt.setInt(3, upa.getId());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件編集しました。");
+		}
+		return result;
+	}
+	public static int UpdatePublisher(PublisherDTO upp) {
+		
+		
+		String sql = "UPdate project_publisher set publisher_name = ?, publisher_hiragana= ?,where id =?";
+		// return用の変数
+		int result = 0;
+		
+		try (
+				Connection con = getConnection();	// DB接続
+				PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
+				){
+			pstmt.setString(1, upp.getPublisher_name());
+			pstmt.setString(2, upp.getPublisher_hiragana());
+			pstmt.setInt(3, upp.getId());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件編集しました。");
+		}
+		return result;
+	}
+	public static int Updatebook(BookDTO upbook) {
+		
+		
+		String sql = "UPdate project_book set isbn = ?, status= ?, condition=?. where id =?";
+		// return用の変数
+		int result = 0;
+		
+		try (
+				Connection con = getConnection();	// DB接続
+				PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
+				){
+			pstmt.setInt(1, upbook.getIsbn());
+			pstmt.setString(2,upbook.getStatus());
+			pstmt.setBoolean(3,upbook.isCondition());
+			pstmt.setInt(4, upbook.getId());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件編集しました。");
+		}
+		return result;
+	}
+	public static int UpdateIsbn(IsbnDTO upisbn) {
+		
+		
+		String sql = "UPdate project_isbn set title = ?, author_id= ?,publisher_id=?,category_id=?,where isbn =?";
+		// return用の変数
+		int result = 0;
+		
+		try (
+				Connection con = getConnection();	// DB接続
+				PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
+				){
+			pstmt.setInt(1, upisbn.getIsbn());
+			pstmt.setString(2, upisbn.getTitlel());
+			pstmt.setInt(3, upisbn.getAuthor_id());
+			pstmt.setInt(4, upisbn.getPublisher_id());
+			pstmt.setInt(5, upisbn.getCategory_id());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件編集しました。");
+		}
+		return result;
+	}
 	//削除
 	public static int DROPIsbn(IsbnDTO drop2) {
 
-		String sql = "DELETE from  project_isbn Where ISBN =?";
+		String sql = "DELETE from  project_isbn Where isbn =?";
 
 		// return用の変数
 		int result = 0;
