@@ -12,7 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.BookDAO;
+import dto.AllBookDTO;
+import dto.AuthorDTO;
 import dto.BookDTO;
+import dto.CategoryDTO;
+import dto.IsbnDTO;
+import dto.PublisherDTO;
 import dto.UserDTO;
 
 /**
@@ -43,9 +48,14 @@ public class RootBookListServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			return;
 		}
-		List<BookDTO> book_list=BookDAO.selectAllBook();
-		session.setAttribute("root_book_list", book_list);
-		String view = "WEB-INF/view/book_list.jsp";
+		List<AuthorDTO> author_list=BookDAO.selectAllAuthor();
+		List<PublisherDTO>pulisher_list=BookDAO.selectAllPublisher();
+		List<CategoryDTO>category_list=BookDAO.selectAllCategory();
+		List<IsbnDTO>isbn_list=BookDAO.selectAllIsbn();
+		List<BookDTO>book_list=BookDAO.selectAllBook();
+		List<AllBookDTO>all_list=BookDAO.IntegrationOne(book_list, isbn_list, pulisher_list, author_list, category_list);
+		session.setAttribute("root_book_list", all_list);
+		String view = "WEB-INF/view/root_book_list.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}

@@ -10,7 +10,7 @@
 <body>
 <p>下記の内容で登録します。よろしいですか？</p>
 	<%
-	BookDTO book= (BookDTO)session.getAttribute("input_book");
+	BookDTO book= (BookDTO)session.getAttribute("input_update_book");
 	%>
 	ISBN：<%=book.getIsbn()%><br>
 	本の状態：<%=book.getStatus()%>
@@ -19,7 +19,7 @@
 	<%}else{ %>
 	旧書
 	<%} %>
-	<a href="RegisterBookExecuteServlet">OK</a><br>
-	<a href="RegisterBookFormServlet">戻る</a>
+	<a href="UpdateBookExecuteServlet">OK</a><br>
+	<a href="RootTopServlet">戻る</a>
 </body>
 </html>

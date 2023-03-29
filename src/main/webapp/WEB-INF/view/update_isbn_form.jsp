@@ -15,10 +15,10 @@
 	<%
 	request.setCharacterEncoding("UTF-8");
 			String errorCode = request.getParameter("error");
-			IsbnDTO isbn = (IsbnDTO)session.getAttribute("input_update_isbn");
-			List<AuthorDTO> author_list = (List<AuthorDTO>)session.getAttribute("author_list");
-			List<PublisherDTO> publisher_list = (List<PublisherDTO>)session.getAttribute("publisher_list");
-			List<CategoryDTO> category_list = (List<CategoryDTO>)session.getAttribute("category_list");
+			IsbnDTO isbn = (IsbnDTO)session.getAttribute("update_isbn");
+			List<AuthorDTO> author_list = (List<AuthorDTO>)session.getAttribute("root_author_list");
+			List<PublisherDTO> publisher_list = (List<PublisherDTO>)session.getAttribute("root_publisher_list");
+			List<CategoryDTO> category_list = (List<CategoryDTO>)session.getAttribute("root_category_list");
 			if(errorCode != null && errorCode.equals("1")){
 	%>
 		<p style="color:red">登録に失敗しました。</p>

@@ -17,7 +17,7 @@
 	List<AuthorDTO> author_list = (List<AuthorDTO>)session.getAttribute("author_list");
 	List<PublisherDTO> publisher_list = (List<PublisherDTO>)session.getAttribute("publisher_list");
 	List<CategoryDTO> category_list = (List<CategoryDTO>)session.getAttribute("category_list");
-	IsbnDTO isbn = (IsbnDTO)session.getAttribute("input_isbn");
+	IsbnDTO isbn = (IsbnDTO)session.getAttribute("input_update_isbn");
 	%>
 	ISBN：<%=isbn.getIsbn()%><br>
 	タイトル：<%=isbn.getTitlel() %><br>
@@ -36,7 +36,7 @@
 			%><%= ca.getCategory_name() %><%
 		}
 	} %>
-	<a href="RegisterIsbnExecuteServlet">OK</a><br>
-	<a href="RegisterIsbnFormServlet">戻る</a>
+	<a href="UpdateIsbnExecuteServlet">OK</a><br>
+	<a href="RootTopServlet">戻る</a>
 </body>
 </html>

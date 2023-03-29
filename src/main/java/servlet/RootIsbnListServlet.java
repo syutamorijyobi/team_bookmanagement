@@ -45,7 +45,7 @@ public class RootIsbnListServlet extends HttpServlet {
 		}
 		List<IsbnDTO> isbn_list=BookDAO.selectAllIsbn();
 		session.setAttribute("root_isbn_list", isbn_list);
-		String view = "WEB-INF/view/lending_list.jsp";
+		String view = "WEB-INF/view/root_isbn_list.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}

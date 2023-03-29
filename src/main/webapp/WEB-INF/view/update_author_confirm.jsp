@@ -15,6 +15,6 @@
 	名前：<%=au.getAuthor_name()%><br>
 	名前（ひらがな）：<%=au.getAuthor_hiragana() %><br>
 	<a href="UpdateAuthorExecuteServlet">OK</a><br>
-	<a href="UpdateAuthorFormServlet">戻る</a>
+	<a href="RootTopServlet">戻る</a>
 </body>
 </html>

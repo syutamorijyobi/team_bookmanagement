@@ -15,6 +15,6 @@
 	名前：<%=publisher.getPublisher_name()%><br>
 	名前（ひらがな）：<%=publisher.getPublisher_hiragana() %><br>
 	<a href="UpdatePublisherExecuteServlet">OK</a><br>
-	<a href="UpdatePublisherFormServlet">戻る</a>
+	<a href="RootTopServlet">戻る</a>
 </body>
 </html>
