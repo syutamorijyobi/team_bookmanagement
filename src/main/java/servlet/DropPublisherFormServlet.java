@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class DropAuthorForm
  */
-@WebServlet("/DropAuthorFormServlet")
+@WebServlet("/DropPublisherFormServlet")
 public class DropPublisherFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

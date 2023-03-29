@@ -16,7 +16,7 @@ import dto.PublisherDTO;
 /**
  * Servlet implementation class DropAuthorExecuteServlet
  */
-@WebServlet("/DropAuthorExecuteServlet")
+@WebServlet("/DropPublisherExecuteServlet")
 public class DropPublisherExecuteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
                    
