@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+h1 {
+	font-size: 50px;
+	margin-left: 220px;
+}
+
+img.yoko {
+	transform: rotate( -30deg );
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+img.tate {
+	margin-left: 1040px;
+	transform: rotate( 20deg);
+	
+}
