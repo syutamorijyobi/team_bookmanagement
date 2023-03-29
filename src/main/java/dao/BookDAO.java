@@ -427,7 +427,7 @@ public class BookDAO {
 		}
 		return result;
 	}
-	削除
+	//削除
 	public static int DROPIsbn(IsbnDTO drop2) {
 
 		String sql = "DELETE from  project_isbn Where ISBN =?";
