@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+* {
+ margin: 0;
+ padding: 0;
+}
+.logo{
+  max-width:100%; /*画像が親要素からはみ出すのを防ぐ*/
+    height:auto;
+  float:left;
+}
+.logo img{
+  width:100px;
+}
+.btn--orange,
+a.btn--orange {
+  color: #fff;
+  background-color: #EB6100;
+}
+.btn--orange:hover,
+a.btn--orange:hover {
+  color: #fff;
+  background: #F56500;
+}
+ul {
+  list-style:none;
+}
+div {
+  padding: 0 30px;
+}
+.header__flex {
+  display: flex;
+  height:60px;
+  align-items: center;
+}
+.header__flex nav {
+  margin-left: auto;
+}
+.header__flex ul {
+  display: flex;
+}
+.header__flex ul li {
+  margin-left: 20px;
+}
+
+.menu {
+	font-size: 40px;
+	margin-left: 300px;
+	margin-top: 150px;
+}
+
+.kensaku {
+	margin-left: -30px;
+    margin-bottom: 50px;
+    width: 200px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 100vh;
+    text-align: center;
+    border: solid 3px gray;/*線*/
+}
+
+.henkyaku {
+	margin-left: 90px;
+    margin-bottom: 50px;
+    width: 200px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 100vh;
+    text-align: center;
+    border: solid 3px gray;/*線*/
+}
+
+.yoko {
+	display:flex;
+}
+
+h1 {
+	
+}
+
