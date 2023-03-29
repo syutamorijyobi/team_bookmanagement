@@ -303,6 +303,36 @@ public class BookDAO {
 		return null;
 	}
 	
+	public static IsbnDTO SearchTitle (String name) {
+		
+		String sql = "SELECT * FROM project_isbn WHERE title LIKE %?%";
+		
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setString(1, name);
+			
+			try(ResultSet rs = pstmt.executeQuery()){
+				
+				if(rs.next()) {
+					int isbn = rs.getInt("isbn");
+					String title = rs.getString("title");
+					int author_id = rs.getInt("author_id");
+					int publisher_id = rs.getInt("publisher_id");
+					int category_id = rs.getInt("category_id");
+					
+					return new IsbnDTO(isbn, title, author_id, publisher_id, category_id);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static CategoryDTO SelectCate_id (String cate_id) {
 		String sql = "SELECT * FROM project_category WHERE category = ?";
 		
@@ -503,5 +533,33 @@ public class BookDAO {
 		return null;
 	}
 	
-	
+	public static List<IsbnDTO> SearchBook(CategoryDTO categoryid){
+		List<IsbnDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_isbn WHERE category_id = ?";
+		
+			try (
+					Connection con = getConnection();
+					PreparedStatement pstmt = con.prepareStatement(sql);
+					){
+				
+				try (ResultSet rs = pstmt.executeQuery()){
+					if(rs.next()) {
+						int isbn = rs.getInt("isbn");
+						String title = rs.getString("title");
+						int author_id = rs.getInt("author_id");
+						int publisher_id = rs.getInt("publisher_id");
+						int category_id = rs.getInt("category_id");
+						
+						IsbnDTO searchresult = new IsbnDTO(isbn,title,author_id,publisher_id,category_id);
+						result.add(searchresult);
+					}
+				}
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+			return null;
+	}
+
 }

@@ -20,6 +20,7 @@
 	List<CategoryDTO> category_list = (List<CategoryDTO>)session.getAttribute("searchcategory_id");
 	List<AuthorDTO> author_list = (List<AuthorDTO>)session.getAttribute("author_name"); 
 	List<PublisherDTO> publisher_list = (List<PublisherDTO>)session.getAttribute("publisher_name");
+	List<IsbnDTO> searchresult = (List<IsbnDTO>)request.getAttribute("searchresult");
 	%>
 	<h3>検索結果</h3>
 	<%
@@ -35,32 +36,30 @@
 		</tr>
 	<%
 	
-	for(IsbnDTO category:list_category){
-		for(CategoryDTO searchcategoryid:category_list){
-			for(PublisherDTO searchpublisherid:publisher_list){
-				for(AuthorDTO searchauthorchid:author_list){
-					if(category.getCategory_id() == searchcategoryid.getId()){
-			
+	for(IsbnDTO result:searchresult){
 	%>
 		<tr>
-			<td><%category.getTitlel(); %></td>
-			<td><%if(category.getPublisher_id()==searchpublisherid.getId()){
-					searchpublisherid.getPublisher_name();
+			<td><%result.getTitlel(); %></td>
+			<td><%for (PublisherDTO searchpublishername:publisher_list){
+				if(result.getPublisher_id()==searchpublishername.getId()){
+					searchpublishername.getPublisher_name();
+				}
 				} %></td>
-			<td><%if(category.getAuthor_id()==searchauthorchid.getId()){
-				searchauthorchid.getAuthor_name();
+			<td><%for (CategoryDTO searchcategoryname:category_list){
+				if(result.getCategory_id()==searchcategoryname.getId()){
+				searchcategoryname.getCategory_name();
+			}
+			}%></td>
+			<td><%for (CategoryDTO searchcategoryname:category_list){
+				if(result.getAuthor_id()==searchcategoryname.getId()){
+				searchcategoryname.getCategory_name();
+			}
 			}
 				%></td>
-			<td><%if(category.getCategory_id()==searchcategoryid.getId()){
-				searchcategoryid.getCategory_name();
-			}%></td>
-			<td><%category.getIsbn();%>
+			<td><%result.getIsbn();%></td>
 		</tr>
 	<%
-					}
-				}
-			}
-		}
+	
 	}
 	%>
 	</table>
