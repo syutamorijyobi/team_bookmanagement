@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" href="css/forget-form.css">
+<title>パスワード再設定画面</title>
 </head>
 <body>
 <%
@@ -13,15 +14,21 @@
 		if(errorCode != null && errorCode.equals("1")){
 		String mail=request.getParameter("email");
 %>
+<h1>お客様情報の入力</h1>
+<p>パスワードの再設定を行うE-mailを入力してください</p>
 <form action="ForgetPasswordResultServlet">
 <input type="email"name="email" value="<%=mail%>"required><br>
 <input type= "submit"value="送信"><br>
 </form>
 <%}else{ %>
+<div class="box">
 <form action="ForgetPasswordResultServlet">
-<input type="email"name="email"required><br>
-<input type= "submit"value="送信"><br>
+<h1>お客様情報の入力</h1>
+<p>パスワードの再設定を行うE-mailを入力してください</p>
+<input type="email"name="email" placeholder="E-mail" required><br>
+<input type= "submit"value="送信" class="send"><br>
 </form>
+</div>
 <%}%>
 </body>
 </html>
