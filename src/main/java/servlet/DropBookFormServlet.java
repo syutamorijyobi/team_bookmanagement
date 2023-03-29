@@ -19,7 +19,7 @@ import dto.PublisherDTO;
 /**
  * Servlet implementation class RegisterBookFormServlet
  */
-@WebServlet("/RegisterBookFormServlet")
+@WebServlet("/DropBookFormServlet")
 public class DropBookFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

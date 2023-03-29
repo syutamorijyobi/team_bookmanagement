@@ -15,7 +15,7 @@ import dto.PublisherDTO;
 /**
  * Servlet implementation class RegisterPublisherConfirmServlet
  */
-@WebServlet("/RegisterPublisherConfirmServlet")
+@WebServlet("/DropPublisherConfirmServlet")
 public class DropPublisherConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

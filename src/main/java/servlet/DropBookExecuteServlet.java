@@ -16,7 +16,7 @@ import dto.BookDTO;
 /**
  * Servlet implementation class RegisterBookExecuteServlet
  */
-@WebServlet("/RegisterBookExecuteServlet")
+@WebServlet("/DropBookExecuteServlet")
 public class DropBookExecuteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
