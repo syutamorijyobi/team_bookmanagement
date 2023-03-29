@@ -22,7 +22,7 @@
 				IsbnDTO isbn = (IsbnDTO)session.getAttribute("input_isbn");
 	%>
 		<p style="color:red">登録内容が重複</p>
-		<h3>登録画面</h3>
+		<h3>ISBN登録画面</h3>
 		<form action="RegisterIsbnConfirmServlet" method="post">
 			<input type="number" name="isbn" placeholder="ISBN" value="<%=isbn.getIsbn()%>"><br>
 			<input type="text"name="title" placeholder="タイトル"value="<%=isbn.getTitlel()%>"><br>
@@ -47,7 +47,7 @@
 		} else {
 	%>
 	<div class="box3">
-	<h3>登録画面</h3>
+	<h3>ISBN登録画面</h3>
 	<form action="RegisterIsbnConfirmServlet" method="post">
 		<input type="number" name="isbn" placeholder="ISBN"><br>
 		<input type="text"name="title" placeholder="タイトル"><br>

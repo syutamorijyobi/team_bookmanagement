@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-出版社の登録に成功しました
+出版社の登録に成功しました<br>
+<a href="RegisterIsbnFormServlet">ISBNの登録へ</a>
 </body>
 </html>
