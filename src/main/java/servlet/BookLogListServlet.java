@@ -12,19 +12,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.BookDAO;
+import dto.AllBookDTO;
+import dto.AuthorDTO;
+import dto.BookDTO;
+import dto.BookLogDTO;
+import dto.CategoryDTO;
+import dto.IsbnDTO;
+import dto.PublisherDTO;
 import dto.UserDTO;
 
 /**
- * Servlet implementation class LendingApporovalListServlet
+ * Servlet implementation class BookLogListServlet
  */
-@WebServlet("/LendingApporovalListServlet")
-public class LendingApporovalListServlet extends HttpServlet {
+@WebServlet("/BookLogListServlet")
+public class BookLogListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LendingApporovalListServlet() {
+    public BookLogListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,6 +40,7 @@ public class LendingApporovalListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		HttpSession session=request.getSession();
 		UserDTO user = (UserDTO)session.getAttribute("user");
 		if(user == null){
@@ -41,13 +49,18 @@ public class LendingApporovalListServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 			return;
 		}
-		request.setCharacterEncoding("UTF-8");
-		List<UserDTO>log_user=BookDAO.SelectAllbooklogUser(1);
-		session.setAttribute("log_user", log_user);
-		String view = "WEB-INF/view/lneding_apporoval_list.jsp";
+		List<AuthorDTO> author_list=BookDAO.selectAllAuthor();
+		List<PublisherDTO>pulisher_list=BookDAO.selectAllPublisher();
+		List<CategoryDTO>category_list=BookDAO.selectAllCategory();
+		List<IsbnDTO>isbn_list=BookDAO.selectAllIsbn();
+		List<BookDTO>book_list=BookDAO.selectAllBook();
+		List<AllBookDTO>all_list=BookDAO.IntegrationOne(book_list, isbn_list, pulisher_list, author_list, category_list);
+		session.setAttribute("book_list", all_list);
+		List<BookLogDTO> log=BookDAO.Selectbooklog(2, user.getId());
+		session.setAttribute("book_log_list",log);
+		String view="WEB-INF/view/book_log_list.jsp";
 		RequestDispatcher dispatcher=request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
-		
 	}
 
 	/**

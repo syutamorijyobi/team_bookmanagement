@@ -322,9 +322,34 @@ public class BookDAO {
 		}
 		return null;
 	}
-	public static List<UserDTO> SelectAllbooklogUser(int num) {
-		List<UserDTO> result = new ArrayList<>();
-		String sql = "select * from project_user where id IN(select DISTINCT user_id from project_book_log where division_id = 1)";
+	
+	public static List<BookLogDTO> SerchBookloguserid(int num) {
+		
+		String sql = "select DISTINCT user_id from project_book_log where division_id = ? ";
+		List<BookLogDTO>result=new ArrayList<>();
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+				pstmt.setInt(1,num);
+			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) {
+					int user_id=rs.getInt("user_id");
+					BookLogDTO book=new BookLogDTO(0, user_id, num, 0, null, null, null);
+					result.add(book);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件検索しました。");
+		}
+		return result;
+	}
+	public static UserDTO SelectUserMail(int num) {
+		String sql = "select name,mail from project_user where id = ?";
 		
 		try (
 				Connection con = getConnection();
@@ -335,11 +360,10 @@ public class BookDAO {
 			try (ResultSet rs = pstmt.executeQuery()){
 				
 				if(rs.next()) {
-					int id=rs.getInt("id");
 					String name=rs.getString("name");
 					String mail=rs.getString("mail");
-					UserDTO user=new UserDTO(id, name, mail, null, null, null);
-					result.add(user);
+					UserDTO user=new UserDTO(num, name, mail, null, null, null);
+					return user;
 				}
 			}
 		} catch (SQLException e) {
@@ -351,13 +375,14 @@ public class BookDAO {
 	}
 	public static List<BookLogDTO> Selectbooklog(int num ,int user) {
 		List<BookLogDTO> result = new ArrayList<>();
-		String sql = "SELECT * FROM project_book_log WHERE user_id= ? , division_id = ?";
+		String sql = "SELECT * FROM project_book_log WHERE user_id= ? AND division_id = ?";
 		
 		try (
 				Connection con = getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				){
-			pstmt.setInt(1, num);
+			pstmt.setInt(1, user);
+			pstmt.setInt(2, num);
 
 			try (ResultSet rs = pstmt.executeQuery()){
 				
@@ -378,11 +403,11 @@ public class BookDAO {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 	//更新
 	public static int BookDivisionUpdate(BookLogDTO log) {
-		String sql = "UPDATE product set division_id = ? where id = ?";
+		String sql = "UPDATE project_book_log set division_id = ? where id = ?";
 		int result = 0;
 		
 		try (
@@ -390,6 +415,7 @@ public class BookDAO {
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				){
 				pstmt.setInt(1,log.getDivision_id());
+				pstmt.setInt(2, log.getId());
 
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
