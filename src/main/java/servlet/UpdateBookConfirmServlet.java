@@ -35,7 +35,7 @@ public class UpdateBookConfirmServlet extends HttpServlet {
 		int id=Integer.parseInt( request.getParameter("id"));
 		int isbn =Integer.parseInt( request.getParameter("isbn"));
 		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
+		int conditionnum =Integer.parseInt( request.getParameter("conditionnum"));
 		boolean condition;
 		if(conditionnum==0) {
 			condition=true;

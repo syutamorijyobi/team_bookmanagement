@@ -44,7 +44,7 @@ public class UpdateBookFormServlet extends HttpServlet {
 		}
 		int id=Integer.parseInt(request.getParameter("id"));
 		BookDTO author_list=BookDAO.selectBook(id);
-		session.setAttribute("root_book_list", author_list);
+		session.setAttribute("update_book", author_list);
 		String view = "WEB-INF/view/update_book_form.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);

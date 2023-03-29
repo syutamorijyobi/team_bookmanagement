@@ -508,7 +508,7 @@ public class BookDAO {
 	public static int UpdateAuthor(AuthorDTO upa) {
 		
 		
-		String sql = "UPdate project_Author set author_name = ?, author_hiragana= ?,where id =?";
+		String sql = "UPdate project_Author set author_name = ?, author_hiragana= ? where id =?";
 		// return用の変数
 		int result = 0;
 		
@@ -533,7 +533,7 @@ public class BookDAO {
 	public static int UpdatePublisher(PublisherDTO upp) {
 		
 		
-		String sql = "UPdate project_publisher set publisher_name = ?, publisher_hiragana= ?,where id =?";
+		String sql = "UPdate project_publisher set publisher_name = ?, publisher_hiragana = ? where id = ?";
 		// return用の変数
 		int result = 0;
 		
@@ -558,7 +558,7 @@ public class BookDAO {
 	public static int Updatebook(BookDTO upbook) {
 		
 		
-		String sql = "UPdate project_book set isbn = ?, status= ?, condition=?. where id =?";
+		String sql = "UPdate project_book set isbn = ?, status = ?, condition = ? where id = ?";
 		// return用の変数
 		int result = 0;
 		
@@ -584,7 +584,7 @@ public class BookDAO {
 	public static int UpdateIsbn(IsbnDTO upisbn) {
 		
 		
-		String sql = "UPdate project_isbn set title = ?, author_id= ?,publisher_id=?,category_id=?,where isbn =?";
+		String sql = "UPdate project_isbn set title = ?, author_id = ?,publisher_id = ?,category_id = ? where isbn = ?";
 		// return用の変数
 		int result = 0;
 		
@@ -592,11 +592,11 @@ public class BookDAO {
 				Connection con = getConnection();	// DB接続
 				PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
 				){
-			pstmt.setInt(1, upisbn.getIsbn());
-			pstmt.setString(2, upisbn.getTitlel());
-			pstmt.setInt(3, upisbn.getAuthor_id());
-			pstmt.setInt(4, upisbn.getPublisher_id());
-			pstmt.setInt(5, upisbn.getCategory_id());
+			pstmt.setString(1, upisbn.getTitlel());
+			pstmt.setInt(2, upisbn.getAuthor_id());
+			pstmt.setInt(3, upisbn.getPublisher_id());
+			pstmt.setInt(4, upisbn.getCategory_id());
+			pstmt.setInt(5, upisbn.getIsbn());
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {

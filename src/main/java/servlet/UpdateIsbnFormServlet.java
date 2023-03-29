@@ -48,7 +48,7 @@ public class UpdateIsbnFormServlet extends HttpServlet {
 		}
 		int id=Integer.parseInt(request.getParameter("id"));
 		IsbnDTO isbn_list=BookDAO.SelectIsbn(id);
-		session.setAttribute("root_isbn_list", isbn_list);
+		session.setAttribute("update_isbn", isbn_list);
 		List<AuthorDTO> author_list=BookDAO.selectAllAuthor();
 		session.setAttribute("root_author_list", author_list);
 		List<PublisherDTO> publisher_list=BookDAO.selectAllPublisher();

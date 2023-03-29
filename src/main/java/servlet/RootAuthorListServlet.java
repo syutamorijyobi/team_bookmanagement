@@ -45,7 +45,7 @@ public class RootAuthorListServlet extends HttpServlet {
 		}
 		List<AuthorDTO> author_list=BookDAO.selectAllAuthor();
 		session.setAttribute("root_author_list", author_list);
-		String view = "WEB-INF/view/lending_list.jsp";
+		String view = "WEB-INF/view/root_author_list.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}

@@ -14,7 +14,7 @@
 		<%
 		request.setCharacterEncoding("UTF-8");
 			String errorCode = request.getParameter("error");
-			BookDTO book=(BookDTO)session.getAttribute("input_update_book");
+			BookDTO book=(BookDTO)session.getAttribute("update_book");
 			if(errorCode != null && errorCode.equals("1")){
 	%>
 		<p style="color:red">登録に失敗しました。</p>

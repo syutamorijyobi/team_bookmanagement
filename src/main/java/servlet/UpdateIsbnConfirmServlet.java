@@ -52,7 +52,7 @@ public class UpdateIsbnConfirmServlet extends HttpServlet {
 		IsbnDTO is=new IsbnDTO(isbn, title, author_id, publisher_id, category_id);
 		session.setAttribute("input_update_isbn", is);
 		
-		String view = "WEB-INF/view/update_author_confirm.jsp";
+		String view = "WEB-INF/view/update_isbn_confirm.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);	
 	}
