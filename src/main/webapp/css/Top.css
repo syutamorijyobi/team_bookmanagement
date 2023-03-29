@@ -1,0 +1,95 @@
+@charset "UTF-8";
+* {
+ margin: 0;
+ padding: 0; 
+}
+.logo{
+  max-width:100%; /*画像が親要素からはみ出すのを防ぐ*/
+  height:auto;
+  background-color:black;
+  float:left;
+}
+.logo img{
+  width:100px;
+}
+.btn--orange,
+a.btn--orange {
+  color: #fff;
+  background-color: #eb6100;
+}
+.btn--orange:hover,
+a.btn--orange:hover {
+  color: #fff;
+  background: #f56500;
+}
+ul {
+  list-style:none;
+}
+div {
+  padding: 0 30px;
+}
+
+.header__flex {
+  background-color:black;
+  display: flex;
+  height:60px;
+  align-items: center;
+}
+.header__flex nav {
+  margin-left: auto;
+}
+.header__flex ul {
+  display: flex;
+}
+.header__flex ul li {
+  margin-left: 20px;
+}
+.header__flex a{
+font-size: 1.0em;
+text-decoration: none;
+color:white;
+}
+.class1 {
+   position: relative;
+   height:500px;
+   background-image: url(../images/home.jpg);
+   background-size: cover;
+   background-repeat: no-repeat;
+}
+
+.search{
+	position: absolute;
+	font-size: 4.0em;
+	color:white;
+	bottom: 200px;
+    left:150px;
+	padding-left: 20px
+	}
+.search a{
+	color:black;
+	background-color: white;
+	border-radius: 9999px;
+}	
+ .book{
+	position: absolute;
+	font-size: 4.0em;
+	color:white;
+	bottom: 200px;
+    right:150px;
+	padding-left: 20px
+	}
+.book a{
+	color:black;
+	background-color: white;
+	border-radius: 9999px;
+}
+
+
+#footer{
+  padding: 18px 0;
+  color: #fff;
+  font-size: 1.5rem;
+  text-align: center;
+  background-color: #222;
+}
+

@@ -10,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.BookDAO;
 import dto.BookDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class RegisterBookExecuteServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/DropBookExecuteServlet")
+public class DropBookExecuteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public DropBookExecuteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,27 +32,21 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
-		int isbn =Integer.parseInt( request.getParameter("isbn"));
-		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
-		}
-		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
-		
 		HttpSession session = request.getSession();
 		
-		session.setAttribute("input_book", book);
+		BookDTO drop = (BookDTO)session.getAttribute("input_book");
 		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
-		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-		dispatcher.forward(request, response);	
+		int result = BookDAO.DROPbook(drop);
+		
+		String path = "";
+		if(result == 1) {
+			session.removeAttribute("input_isbn");
+			path = "WEB-INF/view/drop_book_success.jsp";
+		} else {
+			path = "WEB-INF/view/drop_book_form.jsp?error=1";
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+		dispatcher.forward(request, response);
 	}
 
 	/**

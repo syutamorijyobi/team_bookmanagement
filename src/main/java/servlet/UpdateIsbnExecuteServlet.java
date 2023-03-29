@@ -10,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dto.BookDTO;
+import dao.BookDAO;
+import dto.IsbnDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class UpdateIsbnExecuteServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/UpdateIsbnExecuteServlet")
+public class UpdateIsbnExecuteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public UpdateIsbnExecuteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,25 +32,17 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		request.setCharacterEncoding("UTF-8");
-		
-		int isbn =Integer.parseInt( request.getParameter("isbn"));
-		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
-		}
-		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
-		
 		HttpSession session = request.getSession();
-		
-		session.setAttribute("input_book", book);
-		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
+		IsbnDTO author=(IsbnDTO)session.getAttribute("input_update_isbn");
+		int result=BookDAO.UpdateIsbn(author);
+		String view="";
+		if(result==0){
+			view = "WEB-INF/view/update_isbn_form.jsp?error=1";
+		}else {
+			view = "WEB-INF/view/update_success.jsp";
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);	
 	}

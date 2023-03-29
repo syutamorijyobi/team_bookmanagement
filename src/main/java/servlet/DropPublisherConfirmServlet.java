@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dto.BookDTO;
+import dto.PublisherDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class RegisterPublisherConfirmServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/DropPublisherConfirmServlet")
+public class DropPublisherConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public DropPublisherConfirmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,23 +33,16 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
-		int isbn =Integer.parseInt( request.getParameter("isbn"));
-		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
-		}
+		String name = request.getParameter("name");
+		String hiragana = request.getParameter("hiragana");
 		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
+		PublisherDTO publisher = new PublisherDTO(0, name, hiragana);
 		
 		HttpSession session = request.getSession();
 		
-		session.setAttribute("input_book", book);
+		session.setAttribute("input_publisher", publisher);
 		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
+		String view = "WEB-INF/view/register_publisher_confirm.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);	
 	}

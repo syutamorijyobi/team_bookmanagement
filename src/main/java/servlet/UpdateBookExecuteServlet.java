@@ -10,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.BookDAO;
 import dto.BookDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class UpdateBookExecuteServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/UpdateBookExecuteServlet")
+public class UpdateBookExecuteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public UpdateBookExecuteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,24 +33,15 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		
-		int isbn =Integer.parseInt( request.getParameter("isbn"));
-		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
-		}
-		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
-		
 		HttpSession session = request.getSession();
-		
-		session.setAttribute("input_book", book);
-		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
+		BookDTO author=(BookDTO)session.getAttribute("input_update_book");
+		int result=BookDAO.Updatebook(author);
+		String view="";
+		if(result==0){
+			view = "WEB-INF/view/update_book_form.jsp?error=1";
+		}else {
+			view = "WEB-INF/view/update_success.jsp";
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);	
 	}

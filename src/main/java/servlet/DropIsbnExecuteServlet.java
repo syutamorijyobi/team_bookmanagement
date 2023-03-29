@@ -10,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dto.BookDTO;
+import dao.BookDAO;
+import dto.IsbnDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class DropIsbnExecuteServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/DropIsbnExecuteServlet")
+public class DropIsbnExecuteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public DropIsbnExecuteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,27 +32,21 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+	    HttpSession session = request.getSession();
 		
-		int isbn =Integer.parseInt( request.getParameter("isbn"));
-		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
+		IsbnDTO isbn = (IsbnDTO)session.getAttribute("input_isbn");
+		
+		int result = BookDAO.DROPIsbn(isbn);
+		
+		String path = "";
+		if(result == 1) {
+			session.removeAttribute("input_isbn");
+			path = "WEB-INF/view/drop_isbn_success.jsp";
+		} else {
+			path = "WEB-INF/view/drop_isbn_form.jsp?error=1";
 		}
-		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
-		
-		HttpSession session = request.getSession();
-		
-		session.setAttribute("input_book", book);
-		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
-		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-		dispatcher.forward(request, response);	
+		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
+		dispatcher.forward(request, response);
 	}
 
 	/**

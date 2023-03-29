@@ -13,16 +13,16 @@ import javax.servlet.http.HttpSession;
 import dto.BookDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class UpdateBookConfirmServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/UpdateBookConfirmServlet")
+public class UpdateBookConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public UpdateBookConfirmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,7 +32,7 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		
+		int id=Integer.parseInt( request.getParameter("id"));
 		int isbn =Integer.parseInt( request.getParameter("isbn"));
 		String status = request.getParameter("status");
 		int conditionnum =Integer.parseInt( request.getParameter("condition"));
@@ -42,14 +42,12 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 		}else {
 			condition=false;
 		}
-		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
-		
+		BookDTO book=new BookDTO(id, isbn, status, condition, null);
 		HttpSession session = request.getSession();
 		
-		session.setAttribute("input_book", book);
+		session.setAttribute("input_update_book", book);
 		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
+		String view = "WEB-INF/view/update_book_confirm.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);	
 	}

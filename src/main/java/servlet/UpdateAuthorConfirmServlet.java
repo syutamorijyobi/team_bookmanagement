@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dto.BookDTO;
+import dto.AuthorDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class UpdateAuthorConfirmServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/UpdateAuthorConfirmServlet")
+public class UpdateAuthorConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public UpdateAuthorConfirmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,24 +32,15 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		
-		int isbn =Integer.parseInt( request.getParameter("isbn"));
-		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
-		}
-		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
-		
+		int id=Integer.parseInt( request.getParameter("id"));
+		String name = request.getParameter("name");
+		String mail = request.getParameter("hiragana");
+		AuthorDTO author=new AuthorDTO(id, name, mail);
 		HttpSession session = request.getSession();
 		
-		session.setAttribute("input_book", book);
+		session.setAttribute("input_update_author", author);
 		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
+		String view = "WEB-INF/view/update_author_confirm.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);	
 	}

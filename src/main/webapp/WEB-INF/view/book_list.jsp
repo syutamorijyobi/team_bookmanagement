@@ -32,7 +32,7 @@
 		
 	%>
 		<tr>
-		<td><a href="Servlet?id=<%=ab.getId()%>"><%=ab.getId() %></td>
+		<td><a href="Servlet?id=<%=ab.getId()%>"><%=ab.getId() %></a></td>
 			<td><a href="Servlet?id=<%=ab.getId()%>"><%=ab.getIsbn()%></a></td>
 			<td><%=ab.getTitle()%></td>
 			<td><%=ab.getCategory() %>

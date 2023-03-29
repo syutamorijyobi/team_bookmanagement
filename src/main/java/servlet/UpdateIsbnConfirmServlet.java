@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,19 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dto.BookDTO;
+import dao.BookDAO;
+import dto.AuthorDTO;
+import dto.CategoryDTO;
+import dto.IsbnDTO;
+import dto.PublisherDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class UpdateIsbnConfirmServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/UpdateIsbnConfirmServlet")
+public class UpdateIsbnConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public UpdateIsbnConfirmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,24 +37,22 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		
-		int isbn =Integer.parseInt( request.getParameter("isbn"));
-		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
-		}
-		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
-		
 		HttpSession session = request.getSession();
+		List<AuthorDTO> author_list=BookDAO.selectAllAuthor();
+		List<PublisherDTO> publisher_list=BookDAO.selectAllPublisher();
+		List<CategoryDTO> category_list=BookDAO.selectAllCategory();
+		session.setAttribute("author_list", author_list);
+		session.setAttribute("publisher_list", publisher_list);
+		session.setAttribute("category_list", category_list);
+		int isbn=Integer.parseInt( request.getParameter("isbn"));
+		String title=request.getParameter("title");
+		int author_id =Integer.parseInt( request.getParameter("author_id"));
+		int publisher_id =Integer.parseInt( request.getParameter("publisher_id"));
+		int category_id =Integer.parseInt( request.getParameter("category_id"));
+		IsbnDTO is=new IsbnDTO(isbn, title, author_id, publisher_id, category_id);
+		session.setAttribute("input_update_isbn", is);
 		
-		session.setAttribute("input_book", book);
-		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
+		String view = "WEB-INF/view/update_author_confirm.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);	
 	}

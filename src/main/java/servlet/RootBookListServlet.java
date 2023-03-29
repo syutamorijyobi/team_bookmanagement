@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,19 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.BookDAO;
 import dto.BookDTO;
+import dto.UserDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class BookListServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/RootBookListServlet")
+public class RootBookListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public RootBookListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,26 +35,19 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		
-		int isbn =Integer.parseInt( request.getParameter("isbn"));
-		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
+		HttpSession session=request.getSession();
+		UserDTO user = (UserDTO)session.getAttribute("root");
+		if(user == null){
+			String view = "./";
+			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+			dispatcher.forward(request, response);
+			return;
 		}
-		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
-		
-		HttpSession session = request.getSession();
-		
-		session.setAttribute("input_book", book);
-		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
+		List<BookDTO> book_list=BookDAO.selectAllBook();
+		session.setAttribute("root_book_list", book_list);
+		String view = "WEB-INF/view/book_list.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-		dispatcher.forward(request, response);	
+		dispatcher.forward(request, response);
 	}
 
 	/**

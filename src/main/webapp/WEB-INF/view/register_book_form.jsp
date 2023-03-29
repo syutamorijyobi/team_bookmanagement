@@ -30,8 +30,8 @@
 		<button type="submit"formaction="SelectIsbnServlet" formmethod="post">検索</button><br>
 			<input type="text"name="status" placeholder="ほんの"value="<%=book.getStatus()%>"><br>
 			<select name="category_id">
-				<option value="true">新書</option>
-				<option value="false">旧書</option>
+				<option value="0">新書</option>
+				<option value="0">旧書</option>
 			</select>
 					<%for(AuthorDTO au:author_list){
 			if(au.getId()==isbn.getAuthor_id()){
@@ -61,9 +61,9 @@
 		<input type="number" name="isbn" placeholder="ISBN"value="<%=is.getIsbn()%>"><br>
 		<button type="submit"formaction="SelectIsbnServlet" formmethod="post">検索</button><br>
 			<input type="text"name="status" placeholder="ほんの"><br>
-			<select name="category_id">
-				<option value="true">新書</option>
-				<option value="false">旧書</option>
+			<select name="conditionnum">
+				<option value="0">新書</option>
+				<option value="1">旧書</option>
 			</select>
 		<%for(AuthorDTO au:author_list){
 			if(au.getId()==is.getAuthor_id()){
@@ -88,9 +88,9 @@
 			<input type="number"name="isbn">
 			<button type="submit"formaction="SelectIsbnServlet" formmethod="post">検索</button><br>
 			<input type="text"name="status" placeholder="ほんの"><br>
-			<select name="category_id">
-				<option value="true">新書</option>
-				<option value="false">旧書</option>
+			<select name="conditionnum">
+				<option value="0">新書</option>
+				<option value="1">旧書</option>
 			</select>
 			
 			<input type="submit" value="登録">

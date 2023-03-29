@@ -57,6 +57,10 @@
             <div class="rv">
                 <a href="">レビュー承認待ち</a>
             </div>
+            <a href="RootAuthorListServlet">著者</a>
+            <a href="RootBookListServlet">本</a>
+            <a href="RootPublisherListServlet">出版社</a>
+            <a href="RootIsbnListServlet">ISBN</a>
         </div>
 </body>
 </html>

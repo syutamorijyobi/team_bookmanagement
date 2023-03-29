@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,19 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dto.BookDTO;
+import dao.BookDAO;
+import dto.AuthorDTO;
+import dto.CategoryDTO;
+import dto.PublisherDTO;
 
 /**
- * Servlet implementation class RegisterBookConfirmServlet
+ * Servlet implementation class DropIsbnFormServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/DropIsbnFormServlet")
+public class DropIsbnFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public DropIsbnFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,27 +35,16 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
-		int isbn =Integer.parseInt( request.getParameter("isbn"));
-		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
-		}
-		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
-		
 		HttpSession session = request.getSession();
-		
-		session.setAttribute("input_book", book);
-		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
+		List<AuthorDTO> author_list=BookDAO.selectAllAuthor();
+		List<PublisherDTO> publisher_list=BookDAO.selectAllPublisher();
+		List<CategoryDTO> category_list=BookDAO.selectAllCategory();
+		session.setAttribute("author_list", author_list);
+		session.setAttribute("publisher_list", publisher_list);
+		session.setAttribute("category_list", category_list);
+		String view = "WEB-INF/view/drop_isbn_form.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-		dispatcher.forward(request, response);	
+		dispatcher.forward(request, response);
 	}
 
 	/**

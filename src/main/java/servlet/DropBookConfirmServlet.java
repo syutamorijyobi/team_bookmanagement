@@ -15,14 +15,14 @@ import dto.BookDTO;
 /**
  * Servlet implementation class RegisterBookConfirmServlet
  */
-@WebServlet("/RegisterBookConfirmServlet")
-public class RegisterBookConfirmServlet extends HttpServlet {
+@WebServlet("/DropBookConfirmServlet")
+public class DropBookConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RegisterBookConfirmServlet() {
+    public DropBookConfirmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,21 +35,15 @@ public class RegisterBookConfirmServlet extends HttpServlet {
 		
 		int isbn =Integer.parseInt( request.getParameter("isbn"));
 		String status = request.getParameter("status");
-		int conditionnum =Integer.parseInt( request.getParameter("condition"));
-		boolean condition;
-		if(conditionnum==0) {
-			condition=true;
-		}else {
-			condition=false;
-		}
+		String condition = request.getParameter("condition");
 		
-		BookDTO book = new BookDTO(-1, isbn, status, condition, null);
+		BookDTO drop = new BookDTO(-1, isbn, status, true, null);
 		
 		HttpSession session = request.getSession();
 		
-		session.setAttribute("input_book", book);
+		session.setAttribute("input_book", drop);
 		
-		String view = "WEB-INF/view/register_book_confirm.jsp";
+		String view = "WEB-INF/view/drop_book_confirm.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);	
 	}
