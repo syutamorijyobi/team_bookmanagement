@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,21 +13,19 @@ import javax.servlet.http.HttpSession;
 
 import dao.BookDAO;
 import dao.UserDAO;
-import dto.BookLogDTO;
 import dto.UserDTO;
-import mail.MailUtil;
 
 /**
- * Servlet implementation class ReturnRegisterExecuteServlet
+ * Servlet implementation class SelectAllUser
  */
-@WebServlet("/ReturnRegisterExecuteServlet")
-public class ReturnRegisterExecuteServlet extends HttpServlet {
+@WebServlet("/SelectAllUser")
+public class SelectAllUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReturnRegisterExecuteServlet() {
+    public SelectAllUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,34 +35,21 @@ public class ReturnRegisterExecuteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		HttpSession session = request.getSession();
-		UserDTO user = (UserDTO)session.getAttribute("user");
+		HttpSession session=request.getSession();
+		UserDTO user = (UserDTO)session.getAttribute("root");
 		if(user == null){
 			String view = "./";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			dispatcher.forward(request, response);
 			return;
 		}
-		List<BookLogDTO>book_log=(ArrayList<BookLogDTO>)session.getAttribute("return");
-		for(BookLogDTO bo:book_log) {
-			bo.setDivision_id(3);
-			BookDAO.BookDivisionUpdate(bo);
-		}
+		List<UserDTO>user_list=BookDAO.selectAllUser();
 		List<UserDTO>root_list=UserDAO.selectAllRoot();
-		for(UserDTO us:root_list) {
-			String mail=UserDAO.SelectUser(us.getId());
-			if(mail!=null) {
-				String title="図書返却申請";
-				String content=user.getName()+"さんから図書の返却申請が送信されました。"
-						+ "承認待ち状態です。";
-				MailUtil.sendMail(mail, title, content);	
-			}
-		}
-		session.removeAttribute("return");
-		String view ="WEB-INF/view/return_register_success.jsp";
-		RequestDispatcher dispatcher=request.getRequestDispatcher(view);
+		session.setAttribute("user_list", user_list);
+		session.setAttribute("root_list", root_list);
+		String view = "WEB-INF/view/user_list.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
-		
 	}
 
 	/**

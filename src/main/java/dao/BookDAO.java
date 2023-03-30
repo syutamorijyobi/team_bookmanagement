@@ -56,6 +56,25 @@ public class BookDAO {
 		}
 		return result;
 	}
+	public static int RegisterRootUser(int id) {
+		String sql = "INSERT INTO project_root VALUES( ?, current_timestamp)";
+		int result = 0;
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, id);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件更新しました。");
+		}
+		return result;
+	}
 	public static int RegisterPublisher(PublisherDTO publisher) {
 		String sql = "INSERT INTO project_publisher VALUES(default, ?, ?)";
 		int result = 0;
@@ -292,6 +311,29 @@ public class BookDAO {
 		}
 		return result;
 	}
+	public static List<UserDTO> selectAllUser() {
+		List<UserDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_user";
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) { 
+					int id = rs.getInt("id");
+					String name =rs.getString("name");
+					String mail=rs.getString("mail");
+					UserDTO user=new UserDTO(id, name, mail, null, null, null);
+					result.add(user);
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	//検索
 	public static IsbnDTO SelectIsbn(int num) {
 
@@ -483,6 +525,37 @@ public class BookDAO {
 		}
 		return result;
 	}
+	public static List<BookLogDTO> SelectbooklogUser(int user) {
+		List<BookLogDTO> result = new ArrayList<>();
+		String sql = "SELECT * FROM project_book_log WHERE user_id= ?";
+
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, user);
+
+			try (ResultSet rs = pstmt.executeQuery()){
+
+				if(rs.next()) {
+					int id=rs.getInt("id");
+					int user_id=rs.getInt("user_id");
+					int division_id=rs.getInt("division_id");
+					int book_id=rs.getInt("book_id");
+					Timestamp deadline_at=rs.getTimestamp("deadline_at");
+					Timestamp lending_at=rs.getTimestamp("lending_at");
+					Timestamp return_at=rs.getTimestamp("return_at");
+					BookLogDTO log=new BookLogDTO(id, user_id, division_id, book_id, deadline_at, lending_at, return_at);
+					result.add(log);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	//更新
 	public static int BookDivisionUpdate(BookLogDTO log) {
 		String sql = "UPDATE project_book_log set division_id = ? where id = ?";
@@ -494,6 +567,26 @@ public class BookDAO {
 				){
 			pstmt.setInt(1,log.getDivision_id());
 			pstmt.setInt(2, log.getId());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件を更新しました。");
+		}
+		return result;
+	}
+	public static int BookDivisionUpdateTime(BookLogDTO log) {
+		String sql = "UPDATE project_book_log set return_at = current_timestamp where id = ?";
+		int result = 0;
+
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, log.getId());
 
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -696,6 +789,31 @@ public class BookDAO {
 				PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
 				){
 			pstmt.setInt(1, drop.getIsbn());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件削除しました。");
+		}
+		return result;
+	}
+	public static int DROProot(int id) {
+
+		String sql = "DELETE from project_root Where user_id =?";
+
+		// return用の変数
+		int result = 0;
+
+		try (
+				Connection con = getConnection();	// DB接続
+				PreparedStatement pstmt = con.prepareStatement(sql);			// 構文解析
+				){
+
+
+			pstmt.setInt(1, id);
+
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {

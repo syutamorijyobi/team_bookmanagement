@@ -14,6 +14,7 @@
 	request.setCharacterEncoding("UTF-8");
 	List<AllBookDTO> list = (ArrayList<AllBookDTO>)session.getAttribute("book_list");
 	List<BookLogDTO> list2= (ArrayList<BookLogDTO>)session.getAttribute("book_log_list");
+	List<Integer> return_schedule= (ArrayList<Integer>)session.getAttribute("return_schedule");
 	if(list==null){
 		%>
 		<nav class="box1">
@@ -28,7 +29,8 @@
 			<th>ISBN</th>
 			<th>タイトル</th>
 			<th>カテゴリ</th>
-			<th>追加</th>
+			<th>状態</th>
+			<th>アクション</th>
 		</tr>
 	<% for(AllBookDTO ab : list) {
 		for(BookLogDTO log:list2){
@@ -40,13 +42,44 @@
 			<td><a href="Servlet?id=<%=ab.getId()%>"><%=ab.getIsbn()%></a></td>
 			<td><%=ab.getTitle()%></td>
 			<td><%=ab.getCategory() %>
-			<td><a href="LendingRegisterServlet?id=<%=log.getId()%>&title=<%=ab.getTitle() %>&isbn=<%=ab.getIsbn()%>">追加</a></td>
+			<%if(log.getDivision_id()==1){ %>
+			<td>貸出承認待ち</td>
+			<td></td>
+			<%}else if(log.getDivision_id()==2){
+				if(return_schedule==null){
+					%>
+					<td>貸出中</td>
+					<td><a href="ReturnRegisterServlet?id=<%=log.getId()%>&book_id=<%= log.getBook_id()%>">返却申請</a></td>
+					<%	
+				}else{
+					for(int n:return_schedule){
+						if(n==log.getId()){%>
+							<td>返却予定</td>
+							<td></td>
+							<% 			
+						}
+						%>
+						<% 
+					}
+				%>
+				
+				<%}
+			}else if(log.getDivision_id()==3){
+			%>
+			<td>返却承認待ち</td>
+			<td></td>
+			<% 
+			}else{%>
+			<td>返却済み</td>
+			<td></td>
+			<%
+			} %>
 		</tr>
 	<%		}
 		}
 	} %>
 	</table>
 	<%} %>
-	<a href="LendingListServlet">返却予定リスト</a>
+	<a href="ReturnListServlet">返却予定リスト</a>
 </body>
 </html>

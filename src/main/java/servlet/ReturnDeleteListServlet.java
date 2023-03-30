@@ -45,8 +45,10 @@ public class ReturnDeleteListServlet extends HttpServlet {
 		}
 		int num=Integer.parseInt(request.getParameter("num"));
 		List<BookLogDTO>list=(ArrayList<BookLogDTO>)session.getAttribute("return");
+		List<Integer>return_shedule=(ArrayList<Integer>)session.getAttribute("return_schedule");
+		int id=list.get(num).getId();
 		list.remove(num);
-		String view = "WEB-INF/view/return-list.jsp";
+		String view = "WEB-INF/view/return_list.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}
