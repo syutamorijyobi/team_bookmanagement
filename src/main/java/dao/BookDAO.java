@@ -19,6 +19,7 @@ import dto.CategoryDTO;
 import dto.IsbnDTO;
 import dto.PublisherDTO;
 import dto.UserDTO;
+import dto.User_ArticleDTO;
 
 public class BookDAO {
 	private static Connection getConnection() throws URISyntaxException, SQLException {
@@ -739,4 +740,37 @@ public class BookDAO {
 		}
 		return all_book;
 	}
+	
+	public static int RegisterArticle(User_ArticleDTO article) {
+		String sql = "INSERT INTO  project_user_article VALUES(default, ?, ?, ?, ?, ?, current_timestamp)";
+		int result = 0;
+		try (
+				Connection con = getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				){
+			pstmt.setInt(1, article.getUser_id());
+			pstmt.setInt(2, article.getIsbn());
+			pstmt.setString(3, article.getContent());
+			pstmt.setInt(4, article.getEvaluation());
+			pstmt.setBoolean(5, article.isApproval());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println(result + "件更新しました。");
+		}
+		return result;
+	}
+
+
+
+
+
+
+
+
+
+
 }
