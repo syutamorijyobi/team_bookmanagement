@@ -26,16 +26,22 @@
       </ul>
     </nav>
   </div>
+  	<div class="box3">
   	<form action="RegisterReviewConfirmServlet?isbn=<%=isbn %>" method="post">
-  	評価:<select name="evaluation">
+  	<div class="yoko">
+  	<p>評価:</p>
+  	<select name="evaluation" class="hoge">
   		<option value="1">1</option>
   		<option value="2">2</option>
   		<option value="3">3</option>
   		<option value="4">4</option>
   		<option value="5">5</option>
     </select><br>
-			<input type="text" name="content" class="hoge"><br>
+    </div>
+			<textarea name="content" cols="50" rows="10" placeholder="こちらに内容を入力してください"></textarea><br>
 			<input type="submit" value="投稿" class="hoge2">
 	</form>
+	<a href="BookLogListServlet" class="mae">戻る</a>
+	</div>
 </body>
 </html>
