@@ -43,24 +43,21 @@
                     <a href="">図書編集</a> 
                 </div>
                 <div class="user">
-                    <a href="">ユーザー</a>
+                    <a href="SelectAllUser">ユーザー</a>
                 </div>
             </div>
             <div class="yoko">
                 <div class="kasidasi">
-                    <a href="">貸出待ち</a> 
+                    <a href="LendingApprovalListServlet">貸出待ち</a> 
                 </div>
                 <div class="henkyaku">
-                    <a href="">返却待ち</a>
+                    <a href="ReturnApprovalListServlet">返却待ち</a>
                 </div>
             </div>
             <div class="rv">
                 <a href="">レビュー承認待ち</a>
             </div>
-            <a href="RootAuthorListServlet">著者</a>
-            <a href="RootBookListServlet">本</a>
-            <a href="RootPublisherListServlet">出版社</a>
-            <a href="RootIsbnListServlet">ISBN</a>
+
         </div>
 </body>
 </html>

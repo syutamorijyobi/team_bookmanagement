@@ -19,19 +19,18 @@ import dto.BookLogDTO;
 import dto.CategoryDTO;
 import dto.IsbnDTO;
 import dto.PublisherDTO;
-import dto.UserDTO;
 
 /**
- * Servlet implementation class BookLogListServlet
+ * Servlet implementation class ReturnApprovalConfirmServlet
  */
-@WebServlet("/BookLogListServlet")
-public class BookLogListServlet extends HttpServlet {
+@WebServlet("/ReturnApprovalConfirmServlet")
+public class ReturnApprovalConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BookLogListServlet() {
+    public ReturnApprovalConfirmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,13 +41,13 @@ public class BookLogListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session=request.getSession();
-		UserDTO user = (UserDTO)session.getAttribute("user");
-		if(user == null){
-			String view = "./";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			dispatcher.forward(request, response);
-			return;
-		}
+//		UserDTO user = (UserDTO)session.getAttribute("user");
+//		if(user == null){
+//			String view = "./";
+//			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+//			dispatcher.forward(request, response);
+//			return;
+//		}
 		List<AuthorDTO> author_list=BookDAO.selectAllAuthor();
 		List<PublisherDTO>pulisher_list=BookDAO.selectAllPublisher();
 		List<CategoryDTO>category_list=BookDAO.selectAllCategory();
@@ -56,10 +55,10 @@ public class BookLogListServlet extends HttpServlet {
 		List<BookDTO>book_list=BookDAO.selectAllBook();
 		List<AllBookDTO>all_list=BookDAO.IntegrationOne(book_list, isbn_list, pulisher_list, author_list, category_list);
 		session.setAttribute("book_list", all_list);
-		List<BookLogDTO> log=BookDAO.SelectbooklogUser(user.getId());
-		session.setAttribute("book_log_list",log);
-		String view="WEB-INF/view/book_log_list.jsp";
-		session.setAttribute("beforeview", view);
+		int user_id=Integer.parseInt(request.getParameter("user_id"));
+		List<BookLogDTO>book_log=BookDAO.Selectbooklog(3, user_id);
+		session.setAttribute("return_approval_log", book_log);
+		String view="WEB-INF/view/return_approval_confirm.jsp";
 		RequestDispatcher dispatcher=request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}

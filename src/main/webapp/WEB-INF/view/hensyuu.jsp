@@ -10,28 +10,9 @@
 </head>
 <body>
 <h1>図書編集</h1>
-<form action="Hensyuuservlet" method="post">
-ISBN：<input type="text"  name="ISBN"><br>
-<input type="submit" value="指定">
-</form>
-<table border="1">
-	<tr>
-	    <th>ID</th>
-	    <th>タイトル</th>
-		<th>出版社</th>
-		<th>著者</th>
-		<th>カテゴリー</th>
-		<th>ISBN</th>
-	</tr>
-<%
-List<BookDTO> booklist = (ArrayList<BookDTO>)request.getAttribute("list");
-for(BookDTO s : booklist) {
-%>
-	<tr>
-
-		
-	</tr>
-<%} %>
-</table>
+            <a href="RootAuthorListServlet">著者</a>
+            <a href="RootBookListServlet">本</a>
+            <a href="RootPublisherListServlet">出版社</a>
+            <a href="RootIsbnListServlet">ISBN</a>
 </body>
 </html>

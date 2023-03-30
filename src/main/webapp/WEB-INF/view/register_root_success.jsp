@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<p>管理者に貸し出し申請を送りました。
-<a href="TopServlet">ログイン画面へ</a>
+	管理者権限を付与しました
 </body>
 </html>

@@ -47,12 +47,20 @@ public class ReturnRegisterServlet extends HttpServlet {
 		int book_id=Integer.parseInt(request.getParameter("book_id"));
 		BookLogDTO log=new BookLogDTO(id, user.getId(), 3, book_id, null, null, null);
 		List<BookLogDTO>book_log_list=(ArrayList<BookLogDTO>)session.getAttribute("return");
+		List<Integer>return_shedule=(ArrayList<Integer>)session.getAttribute("return_schedule");
 		if(book_log_list==null) {
 			List<BookLogDTO>if_book_log_list=new ArrayList<BookLogDTO>();
 			if_book_log_list.add(log);
 			session.setAttribute("return", if_book_log_list);
 		}else {
 			book_log_list.add(log);
+		}
+		if(return_shedule==null) {
+			List<Integer>if_return_shchdule=new ArrayList<Integer>();
+			if_return_shchdule.add(id);
+			session.setAttribute("return_schedule", if_return_shchdule);
+		}else {
+			return_shedule.add(id);
 		}
 		String view=(String)session.getAttribute("beforeview");
 		RequestDispatcher dispatcher=request.getRequestDispatcher(view);
