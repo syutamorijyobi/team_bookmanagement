@@ -43,39 +43,33 @@ div {
   margin-left: 20px;
 }
 
-.menu {
-	font-size: 40px;
-	margin-left: 300px;
-	margin-top: 150px;
+form {
+	margin-left: 10px;
 }
 
-.kensaku {
-	margin-left: -30px;
-    margin-bottom: 50px;
-    width: 200px;
-    height: 80px;
-    line-height: 80px;
-    border-radius: 100vh;
-    text-align: center;
-    border: solid 3px gray;/*線*/
+.box3 {
+    background-color:lightgrey;
+    margin-left: 450px;
+    margin-right:400px;
 }
 
-.henkyaku {
-	margin-left: 90px;
-    margin-bottom: 50px;
-    width: 200px;
-    height: 80px;
-    line-height: 80px;
-    border-radius: 100vh;
-    text-align: center;
-    border: solid 3px gray;/*線*/
+input.hoge2 {
+	width:50px;
+	margin-left: 140px;
+	margin-top: 40px;
+}
+
+textarea {
+	margin-top: 40px;
 }
 
 .yoko {
 	display:flex;
+	margin-top: 30px;
 }
 
-body {
-	
+a.mae {
+	margin-left: 160px;
+	margin-top: 30px;
 }
 

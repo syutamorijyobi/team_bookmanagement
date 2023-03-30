@@ -7,7 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" href="css/book_log_list.css">
+<title>貸出履歴</title>
 </head>
 <body>
 		<%
@@ -22,7 +23,7 @@
 		<h1>図書がありません</h1>
 		</nav>
 	<% }else{%>
-<h1>貸出履歴</h1>
+<h1 class="title">貸出履歴</h1>
 <table border="1">
 		<tr>
 			<th>ID</th>
@@ -31,6 +32,7 @@
 			<th>カテゴリ</th>
 			<th>状態</th>
 			<th>アクション</th>
+			<th>レビュー</th>
 		</tr>
 	<% for(AllBookDTO ab : list) {
 		for(BookLogDTO log:list2){
@@ -74,6 +76,7 @@
 			<td></td>
 			<%
 			} %>
+			<td><a href="RegisterReviewServlet?isbn=<%=ab.getIsbn() %>">レビュー</a>
 		</tr>
 	<%		}
 		}

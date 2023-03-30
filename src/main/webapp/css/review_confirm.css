@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.yoko {
+	display:flex;
+}
+
+a.no {
+	margin-left: 30px;
+}
