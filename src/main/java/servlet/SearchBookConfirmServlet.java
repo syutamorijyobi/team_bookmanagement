@@ -37,52 +37,41 @@ public class SearchBookConfirmServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String sch = request.getParameter("sch");
+		String view="WEB-INF/view/search_book_form.jsp";
+		HttpSession session = request.getSession();
 		if(sch.equals("author")) {
-			
 			String searchauthor = request.getParameter("search");
 			AuthorDTO author = BookDAO.SelectAuthor_id(searchauthor);
-			HttpSession session = request.getSession();
 			session.setAttribute("search_author", author);
-			String view = "WEB-INF/view/search_result.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			dispatcher.forward(request, response);
+			view = "WEB-INF/view/search_result.jsp";
 			
 		} else if (sch.equals("publisher")) {
 			// 入力された著者名を受け取る
 			String searchpublisher = request.getParameter("search");
 
-			
 			PublisherDTO publisher = BookDAO.SelectPublisher_id(searchpublisher);
-			HttpSession session = request.getSession();
 			session.setAttribute("search_publisher", publisher);
-			String view = "WEB-INF/view/search_result.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			dispatcher.forward(request, response);
-			
+			 view = "WEB-INF/view/search_result.jsp";
 		} else if (sch.equals("category")) {
 			
 			// 入力されたカテゴリ名を受け取る
 			String searchcategory = request.getParameter("search");
 
 			// 入力されたカテゴリ名を元にカテゴリIDを取得
-			CategoryDTO categoryid = (CategoryDTO) BookDAO.SelectCategoty_id(searchcategory);
-
+			CategoryDTO searchcategoryid = (CategoryDTO) BookDAO.SelectCategoty_id(searchcategory);
+			
 			// 取得したカテゴリIDを元にそのカテゴリIDと一致する本をISBNテーブルから取得
-			List<IsbnDTO> searchresult = BookDAO.SearchBook(categoryid);
-
+			List<IsbnDTO> searchresult = BookDAO.SearchBook(searchcategoryid);
 			// 取得した本のリストをリクエストスコープに保存
 			request.setAttribute("searchresult", searchresult);
 			
 			// 結果表示用のJSPに画面遷移
-
-			String view = "WEB-INF/view/search_result.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			dispatcher.forward(request, response);
+			 view = "WEB-INF/view/search_result.jsp";
 			
 		} else if (sch.equals("title")) {
 
 			// 入力されたタイトルを受け取る
-			String searchtitle = request.getParameter("title");
+			String searchtitle = request.getParameter("search");
 
 			// 入力されたタイトルを元にISBNテーブルから一致する本を祝
 			IsbnDTO title = BookDAO.SelectTitle(searchtitle);
@@ -91,32 +80,20 @@ public class SearchBookConfirmServlet extends HttpServlet {
 			// 取得した本のリストをリクエストスコープに保存
 
 			// 結果表示用のJSPに画面遷移
-
-	
-			HttpSession session = request.getSession();
 			session.setAttribute("search_title", title);
-			String view = "WEB-INF/view/search_result.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			dispatcher.forward(request, response);
+			 view = "WEB-INF/view/search_result.jsp";
 			
 		}  else if (sch.equals("isbn")) {
 			
 			int serchisbn = Integer.parseInt(request.getParameter("search"));
 			IsbnDTO isbn=BookDAO.SelectIsbn(serchisbn);
-			HttpSession session = request.getSession();
 			session.setAttribute("serch_isbn", isbn);
-			String view = "WEB-INF/view/search_result.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			dispatcher.forward(request, response);
-			
+			view = "WEB-INF/view/search_result.jsp";
 		} else {
-			
-			String view = "WEB-INF/view/search_book_form.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			dispatcher.forward(request, response);
+			 view = "WEB-INF/view/search_book_form.jsp";
 		}
-		
-
+		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+		dispatcher.forward(request, response);
 	}
 
 	/**

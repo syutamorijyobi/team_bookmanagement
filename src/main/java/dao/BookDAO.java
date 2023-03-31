@@ -219,7 +219,7 @@ public class BookDAO {
 
 	public static  AuthorDTO SelectAuthor_id(String author) {		
 		
-		String sql = "SELECT * FROM project_author W}HERE author_name = ?";
+		String sql = "SELECT * FROM project_author WHERE author_name = ?";
 		
 		try (
 				Connection con = getConnection();
@@ -365,10 +365,10 @@ public class BookDAO {
 				Connection con = getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				){
-			pstmt.setString(1, category);
+			pstmt.setString(2, category);
 			
 			try (ResultSet rs = pstmt.executeQuery()){
-				if(rs.next()) {	
+				while(rs.next()) {	
 					int category_id = rs.getInt("id");
 					String category_name = rs.getString("category_name");
 					CategoryDTO searchcategoryid = new CategoryDTO(category_id, category_name);
@@ -385,11 +385,7 @@ public class BookDAO {
 	
 	public static List<IsbnDTO> SelectCategory(int num) {
 		List<IsbnDTO> result = new ArrayList<>();
-		String sql = "SELECT * FROM project_isbn INNER "
-				+ "JOIN project_category ON project_isbn.category_id = project_category.id "
-				+ "JOIN project_author ON project_isbn.author_id = project_author.id "
-				+ "JOIN project_publisher ON project_isbn.publisher_id = project_publisher.id "
-				+ "WHERE category_id = ?";
+		String sql = "SELECT * FROM project_isbn INNER WHERE category_id = ?";
 		
 		try (
 				Connection con = getConnection();
@@ -398,6 +394,8 @@ public class BookDAO {
 			pstmt.setInt(1, num);
 			
 			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) {
+									
 				int isbn = rs.getInt("isbn");
 				String title = rs.getString("title");
 				int author_id = rs.getInt("author_id");
@@ -406,6 +404,7 @@ public class BookDAO {
 				
 				IsbnDTO category = new IsbnDTO(isbn, title,author_id,publisher_id,category_id);
 				result.add(category);
+				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -427,12 +426,15 @@ public class BookDAO {
 			pstmt.setString(1, authorid);
 			
 			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) {
+					
 				int author_id = rs.getInt("id");
 				String author_name = rs.getString("author_name");
 				String author_hiragana = rs.getString("author_hiragana");
 				
 				AuthorDTO searchauthorchid = new AuthorDTO(author_id, author_name, author_hiragana);
 				result.add(searchauthorchid);
+				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -457,6 +459,8 @@ public class BookDAO {
 			pstmt.setInt(1, searchauthor);
 			
 			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) {
+					
 				int isbn = rs.getInt("isbn");
 				String title = rs.getString("title");
 				int author_id = rs.getInt("author_id");
@@ -465,6 +469,7 @@ public class BookDAO {
 				
 				IsbnDTO author = new IsbnDTO(isbn, title,author_id,publisher_id,category_id);
 				result.add(author);
+				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -477,21 +482,24 @@ public class BookDAO {
 	public static List<PublisherDTO> SelectPublisher_Id(String pubid){
 		List<PublisherDTO> result = new ArrayList<>();
 		
-		String sql = "SELECT * FROM project_publisher WHERE publisher_name = ?";
+		String sql = "SELECT * FROM project_publisher WHERE publisher_name LIKE  ?";
 		
 		try(
 				Connection con = getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);
 				){
-			pstmt.setString(1, pubid);
+			pstmt.setString(1, "%"+pubid+"%");
 			
 			try(ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) {
+					
 				int publisher_id = rs.getInt("id");
 				String publisher_name = rs.getString("publisher_name");
 				String publisher_hiragana = rs.getString("publisher_hiragana");
 				
 				PublisherDTO searchpublisherid = new PublisherDTO(publisher_id, publisher_name, publisher_hiragana);
 				result.add(searchpublisherid);
+				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -503,11 +511,7 @@ public class BookDAO {
 	
 	public static List<IsbnDTO> SelectPublisher(int searchpublisher){
 		List<IsbnDTO> result = new ArrayList<>();
-		String sql = "SELECT * FROM project_isbn INNER"
-				+ "JOIN project_publisher ON project_isbn.publisher_id = project_publisher,id"
-				+ "JOIN project_author ON project_isbn.author_id = project_author.id"
-				+ "JOIN project_category ON project_isbn.category_id = project_category.id"
-				+ "WHERE publisher_id = ?";
+		String sql = "SELECT * FROM project_isbn WHERE publisher_id = ?";
 		
 		try (
 				Connection con = getConnection();
@@ -516,6 +520,8 @@ public class BookDAO {
 			pstmt.setInt(1, searchpublisher);
 			
 			try (ResultSet rs = pstmt.executeQuery()){
+				while(rs.next()) {
+					
 				int isbn = rs.getInt("isbn");
 				String title = rs.getString("title");
 				int author_id = rs.getInt("author_id");
@@ -524,6 +530,7 @@ public class BookDAO {
 				
 				IsbnDTO publisher = new IsbnDTO(isbn, title,author_id,publisher_id,category_id);
 				result.add(publisher);
+				}
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -541,9 +548,9 @@ public class BookDAO {
 					Connection con = getConnection();
 					PreparedStatement pstmt = con.prepareStatement(sql);
 					){
-				
+				pstmt.setInt(1, categoryid.getId());
 				try (ResultSet rs = pstmt.executeQuery()){
-					if(rs.next()) {
+					while(rs.next()) {
 						int isbn = rs.getInt("isbn");
 						String title = rs.getString("title");
 						int author_id = rs.getInt("author_id");
