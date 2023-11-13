@@ -45,10 +45,10 @@ public class RegisterExecuteServlet extends HttpServlet {
 			// 登録に成功したので、sessionのデータを削除
 			session.removeAttribute("input_data");
 			
-			path = "WEB-INF/view/success.jsp";
+			path = "WEB-INF/view/home.jsp";
 		} else {
 			// 失敗した場合はパラメータ付きで登録画面に戻す
-			path = "WEB-INF/view/register_form.jsp?error=1";
+			path = "WEB-INF/view/register-user.jsp?error=1";
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
 		dispatcher.forward(request, response);
